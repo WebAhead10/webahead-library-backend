@@ -1,0 +1,9 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - curl https://intoli.com/install-google-chrome.sh | bash
+  build:
+    commands:
+      - npm i
