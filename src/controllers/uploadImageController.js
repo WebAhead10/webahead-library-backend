@@ -11,7 +11,7 @@ aws.config.region = process.env.AWS_REGION
 
 export const s3Controller = async (req, res) => {
   // newspaperName should include the date in it
-  const { file, index, newspaperName } = req.body
+  const { file, index, newspaperName, isNewPage } = req.body
 
   let fileContent = Buffer.from(
     file.replace(/^data:image\/\w+;base64,/, ""),
@@ -29,11 +29,18 @@ export const s3Controller = async (req, res) => {
       newspaperName,
     ])
 
-    if (result.rows.length) {
+    // If the newspaper exists
+    if (result.rows.length && !isNewPage) {
       return res.send({
         success: false,
         message: "Already exists",
       })
+
+      // If it's a new page from the newspaper
+    } else if (isNewPage) {
+      newspaperId = result.rows[0].id
+
+      // Add new newspaper
     } else {
       const insertResult = await db.query(
         "INSERT INTO newspapers (name) VALUES ($1) RETURNING id",
@@ -44,6 +51,10 @@ export const s3Controller = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    return res.send({
+      success: false,
+      message: "Failed",
+    })
   }
 
   console.log({ newspaperId })
