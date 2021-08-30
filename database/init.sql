@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins;
 
 CREATE TABLE newspapers(
     id SERIAL PRIMARY KEY,  
@@ -19,5 +19,11 @@ CREATE TABLE overlay_coords(
     newspaper_id INTEGER REFERENCES newspapers(id)
 );
 
+CREATE TABLE admins(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
+);
 
 COMMIT;
