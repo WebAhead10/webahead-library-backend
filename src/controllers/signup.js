@@ -14,17 +14,15 @@ function signup(req,res) {
       if (!data.rows.length) {
           db.query(`INSERT INTO admins(email,password) VALUES ($1, $2)`, [adminData.email,hash])
           .then((result) => {
-              res.send({success:true});
+              res.send({success:true, message:"Registration is done!"});
             })
       
             .catch((error) => {
-              res.send({success:false});
-              const error = new Error("error");
+              res.send({success:false, message:"Something went wrong"});
             });
 
       } else {
-          res.send({success:false});
-          const error = new Error("Email is already exists");
+          res.send({success:false,message:"Email is already exists"});
       }  
   })
 })

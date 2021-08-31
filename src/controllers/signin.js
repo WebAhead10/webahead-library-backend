@@ -9,13 +9,11 @@ function signin(req, res) {
     .then(result => bcrypt.compare(password, result.password))
     .then(match => {
        if (!match){
-        res.send({success:false});
-        const error = new Error("Incorrect password");
+        res.send({success:false, message:"Incorrect password"});
        }
     })
     .catch((error) => {
-        res.send({success:false});
-        const error = new Error("error");
+        res.send({success:false, message:"Something went wrong"});
     });
 }
 
