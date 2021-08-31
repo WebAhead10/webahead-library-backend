@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins CASCADE;
 
 CREATE TABLE newspapers(
     id SERIAL PRIMARY KEY,  
@@ -25,5 +25,7 @@ CREATE TABLE admins(
     password VARCHAR(255),
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO admins (email , password) VALUES ('librarian@example.com' , '$2b$12$dc1CMMpXRv1giih./ccEgOzaWD/rE2apJOLs7bxDXd7SXWzGhUv5S');
 
 COMMIT;
