@@ -8,10 +8,14 @@ function signin(req, res) {
     db.query(`SELECT * FROM admins WHERE email=$1`, [data.email])
     .then(result => bcrypt.compare(password, result.password))
     .then(match => {
-       if (!match) throw new Error("Password mismatch");
+       if (!match){
+        res.send({success:false});
+        const error = new Error("Incorrect password");
+       }
     })
     .catch((error) => {
-        console.log("error");
+        res.send({success:false});
+        const error = new Error("error");
     });
 }
 
