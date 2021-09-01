@@ -8,7 +8,6 @@ import { signup } from "./controllers/signup"
 const router = Router()
 
 router.post("/upload", s3Controller)
-router.post("/signin", signin)
 router.post("/signup", signup)
 router.get("/newspaper/:id", getNewspaper)
 router.get("/", (req, res) => {
