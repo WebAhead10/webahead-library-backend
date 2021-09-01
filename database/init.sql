@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords ,admins CASCADE;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins CASCADE;
 
 CREATE TABLE newspapers(
     id SERIAL PRIMARY KEY,  
@@ -19,12 +19,13 @@ CREATE TABLE overlay_coords(
     newspaper_id INTEGER REFERENCES newspapers(id)
 );
 
-create table admins (
-	id SERIAL PRIMARY KEY,
-	email VARCHAR(255),
-	password VARCHAR(255)
+CREATE TABLE admins(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
--- insert into admins ( email, password) values ( 'lib@web.com', '123');
+-- INSERT INTO admins (email , password) VALUES ('librarian@example.com' , '$2b$12$dc1CMMpXRv1giih./ccEgOzaWD/rE2apJOLs7bxDXd7SXWzGhUv5S');
 
 COMMIT;

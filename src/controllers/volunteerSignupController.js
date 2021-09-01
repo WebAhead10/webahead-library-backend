@@ -1,17 +1,17 @@
 const db = require("../../database/connection");
 const bcrypt = require("bcryptjs");
 
-function signup(req, res) {
+function volunteerSignupController(req, res) {
   const adminData = req.body;
   const password = adminData.password;
   bcrypt
     .genSalt(10)
     .then((salt) => bcrypt.hash(password, salt))
     .then((hash) => {
-      db.query(`SELECT * FROM admins WHERE email=$1`, [adminData.email])
+      db.query(`SELECT * FROM volunteers WHERE email=$1`, [adminData.email])  // 
         .then((data) => {
           if (!data.rows.length) {
-            db.query(`INSERT INTO admins(email,password) VALUES ($1, $2)`, [adminData.email, hash])
+            db.query(`INSERT INTO volunteers(email,password) VALUES ($1, $2)`, [adminData.email, hash])
               .then((result) => {
                 res.send({ success: true, message: "Registration is done!" });
               })
@@ -27,4 +27,4 @@ function signup(req, res) {
     })
 }
 
-module.exports = { signup };
+module.exports = { volunteerSignupController };

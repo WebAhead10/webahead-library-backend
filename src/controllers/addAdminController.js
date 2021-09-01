@@ -14,15 +14,21 @@ export const addadminController = (req, res) => {
 
     db.query("SELECT * FROM admins WHERE email = $1", [email])
         .then((results) => {
+            
             if (results.rows.length > 0) {
                 return res.status(200).send({
                     success: false,
                     message: "Email already exists",
                 })
             }
+
+
             bcrypt.hash(password, 10, function (err, hash) {
                 if (err) {
-                    throw new Error(err)
+                    return res.status(200).send({
+                        success: false,
+                        message: "Failed",
+                    })
                 }
 
                 db.query(
