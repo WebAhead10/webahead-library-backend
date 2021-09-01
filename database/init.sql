@@ -3,8 +3,19 @@ BEGIN;
 DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins CASCADE;
 
 CREATE TABLE newspapers(
+    id SERIAL ,  
+    published_date Date,
+    publisher_id FOREIGN KEY references publishers(id),  
+    PRIMARY KEY(
+        publisher_id ,
+        published_date
+    )
+);
+
+CREATE TABLE publishers (
     id SERIAL PRIMARY KEY,  
-    name VARCHAR(255) UNIQUE
+    name VARCHAR(255) UNIQUE,
+    icon varchar(500) UNIQUE
 );
 
 CREATE TABLE newspaper_pages(
