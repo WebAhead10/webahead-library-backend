@@ -26,6 +26,6 @@ CREATE TABLE admins(
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO admins (email , password) VALUES ('librarian@example.com' , '$2b$12$dc1CMMpXRv1giih./ccEgOzaWD/rE2apJOLs7bxDXd7SXWzGhUv5S');
+-- INSERT INTO admins (email , password) VALUES ('librarian@example.com' , '$2b$12$dc1CMMpXRv1giih./ccEgOzaWD/rE2apJOLs7bxDXd7SXWzGhUv5S');
 
 COMMIT;
