@@ -17,6 +17,6 @@ router.get("/", (req, res) => {
 })
 router.post("/admin/signin", signInController)
 router.post("/admin/signup", addadminController)
-router.get("/publishers/:publisher_id", publishersController)
+router.get("/publishers", publishersController)
 
 export default router
