@@ -1,10 +1,28 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins CASCADE;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers CASCADE;
 
-CREATE TABLE newspapers(
+CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
-    name VARCHAR(255) UNIQUE
+    name VARCHAR(255) UNIQUE,
+    icon varchar(500) UNIQUE
+);
+
+INSERT INTO publishers (name, icon) values ('aljazera','somelink.com');
+INSERT INTO publishers (name, icon) values ('haarz','url.com');
+
+SELECT * FROM publishers;
+CREATE TABLE newspapers(
+    id SERIAL UNIQUE,  
+    published_date Date,
+    publisher_id INTEGER,  
+    CONSTRAINT fk_publisher  
+    FOREIGN KEY(publisher_id)   
+    REFERENCES publishers(id) ,
+    PRIMARY KEY(
+        publisher_id ,
+        published_date
+    )
 );
 
 CREATE TABLE newspaper_pages(
