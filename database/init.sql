@@ -5,22 +5,19 @@ DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publis
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
     name VARCHAR(255) UNIQUE,
-    icon varchar(500) UNIQUE
+    logo VARCHAR(500) UNIQUE
 );
 
-INSERT INTO publishers (name, icon) values ('aljazera','somelink.com');
-INSERT INTO publishers (name, icon) values ('haarz','url.com');
+INSERT INTO publishers (name, logo) VALUES ('aljazera', 'somelink.com');
+INSERT INTO publishers (name, logo) VALUES ('haarz', 'url.com');
 
-SELECT * FROM publishers;
 CREATE TABLE newspapers(
     id SERIAL UNIQUE,  
-    published_date Date,
+    published_date DATE,
     publisher_id INTEGER,  
-    CONSTRAINT fk_publisher  
-    FOREIGN KEY(publisher_id)   
-    REFERENCES publishers(id) ,
+    CONSTRAINT fk_publisher FOREIGN KEY(publisher_id) REFERENCES publishers(id),
     PRIMARY KEY(
-        publisher_id ,
+        publisher_id,
         published_date
     )
 );
