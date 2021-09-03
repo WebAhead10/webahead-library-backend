@@ -5,6 +5,7 @@ import { getNewspaper } from "./controllers/newspaperController"
 import { signInController } from "./controllers/signinController"
 import { addadminController } from "./controllers/addAdminController"
 import { volunteerSignupController } from "./controllers/volunteerSignupController"
+import { publishersController } from "./controllers/publishersControllers"
 
 const router = Router()
 
@@ -16,5 +17,6 @@ router.get("/", (req, res) => {
 })
 router.post("/admin/signin", signInController)
 router.post("/admin/signup", addadminController)
+router.get("/publishers", publishersController)
 
 export default router
