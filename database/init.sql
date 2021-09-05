@@ -25,12 +25,28 @@ CREATE TABLE newspapers(
     )
 );
 
+INSERT INTO newspapers (published_date, publisher_id) VALUES ('2021-09-05', '2');
+
 CREATE TABLE newspaper_pages(
     id SERIAL PRIMARY KEY,  
     newspaper_id INTEGER REFERENCES newspapers(id),
     page_number INTEGER,
     name VARCHAR(255) 
 );
+
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '1', 'HAREEAT_page_1');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '2', 'HAREEAT_page_2');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '3', 'HAREEAT_page_3');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '4', 'HAREEAT_page_4');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '5', 'HAREEAT_page_5');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '6', 'HAREEAT_page_6');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '7', 'HAREEAT_page_7');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '8', 'HAREEAT_page_8');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '9', 'HAREEAT_page_9');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '10', 'HAREEAT_page_10');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '11', 'HAREEAT_page_11');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '12', 'HAREEAT_page_12');
+
 
 CREATE TABLE overlay_coords(
     id SERIAL PRIMARY KEY,  
