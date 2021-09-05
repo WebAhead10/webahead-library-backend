@@ -6,12 +6,14 @@ import { signInController } from "./controllers/signinController"
 import { addadminController } from "./controllers/addAdminController"
 import { volunteerSignupController } from "./controllers/volunteerSignupController"
 import { publishersController } from "./controllers/publishersControllers"
+import { setCoordsController } from "./controllers/setCoordsController"
 
 const router = Router()
 
 router.post("/upload", s3Controller)
 router.post("/volunteer/signup", volunteerSignupController)
 router.get("/newspaper/:id", getNewspaper)
+router.post("/newspaper/coords/:id",setCoordsController)
 router.get("/", (req, res) => {
   res.send("Server's homepage, lovely")
 })

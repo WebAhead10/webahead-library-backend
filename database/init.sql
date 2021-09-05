@@ -47,7 +47,8 @@ INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '12',
 
 CREATE TABLE overlay_coords(
     id SERIAL PRIMARY KEY,  
-    newspaper_id INTEGER REFERENCES newspapers(id)
+    newspaper_id INTEGER REFERENCES newspapers(id),
+    coords VARCHAR[][]
 );
 
 CREATE TABLE admins(
