@@ -1,23 +1,20 @@
 const db = require("../../database/connection.js")
 
 export const publishersController = (req, res) => {
-    const { publisher_id } = req.params
-
-    db.query("SELECT * FROM publishers WHERE id = $1", [publisher_id])
+    db.query("SELECT * FROM publishers")
         .then((results) => {
 
             if (!results.rows.length) {
                 return res.status(200).send({
                     success: false,
-                    message: "id not found! this publisher doesnt exist",
+                    message: "there is no publisher in the database",
                 })
             }
 
             return res.status(200).send({
                 success: true,
-                message: "id has been found! returning publisher",
-                publisher: results.rows[0], 
-
+                message: "success, returning all publishers",
+                publisher: results.rows, 
             })
             
         })

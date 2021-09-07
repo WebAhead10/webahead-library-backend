@@ -4,7 +4,7 @@ export const getNewspaper = async (req, res) => {
   const { id } = req.params
   try {
     const result = await db.query(
-      `SELECT newspapers.name, newspaper_pages.name as pageName, 
+      `SELECT  newspaper_pages.name as pageName, 
                     newspaper_pages.page_number as pageNumber
                     FROM newspapers 
                     LEFT JOIN newspaper_pages ON newspapers.id = newspaper_pages.newspaper_id
