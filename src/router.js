@@ -15,7 +15,7 @@ router.post("/upload", s3Controller)
 router.post("/volunteer/signup", volunteerSignupController)
 router.get("/newspaper/:id", getNewspaper)
 router.post("/newspaper/coords/:id", setCoordsController)
-router.get("/newspaper/c/:id", getCoords)
+router.get("/newspaper/coords/:id", getCoords)
 router.get("/", (req, res) => {
   res.send("Server's homepage, lovely")
 })
