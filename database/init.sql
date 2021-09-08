@@ -63,5 +63,4 @@ CREATE TABLE admins(
 );
 
 
-
 COMMIT;

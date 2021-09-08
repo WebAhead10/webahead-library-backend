@@ -11,7 +11,7 @@ export const getCoords = async (req, res) => {
 
     res.send({
       success: true,
-      pages: result.rows[0].coords[0],
+      pages: JSON.parse(result.rows[0].coords),
     })
   } catch (error) {
     console.log(error)
