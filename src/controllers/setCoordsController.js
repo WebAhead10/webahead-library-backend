@@ -2,6 +2,7 @@ const db = require("../../database/connection.js")
 
 export const setCoordsController = (req, res) => {
   const coords = req.body
+  
   console.log(coords)
   db.query("INSERT INTO overlay_coords (coords) VALUES ($1) RETURNING coords", [
     coords,
