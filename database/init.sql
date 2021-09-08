@@ -50,8 +50,10 @@ INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '12',
 
 CREATE TABLE overlay_coords(
     id SERIAL PRIMARY KEY,  
-    newspaper_id INTEGER REFERENCES newspapers(id)
+    newspaper_id INTEGER REFERENCES newspapers(id),
+    coords TEXT
 );
+INSERT INTO overlay_coords (newspaper_id,coords) VALUES ('1','[{"x":4756.60681369538,"y":330.51214148731304,"width":378.2821562709105,"height":287.21052721097345,"degrees":0},{"x":5330.046355699557,"y":32.4140969014465,"width":176.0542458985219,"height":412.9440855428983,"degrees":0},{"x":5503.883110580155,"y":454.2190584381016,"width":185.9329866218177,"height":343.8565170254213,"degrees":0}]');
 
 CREATE TABLE admins(
     id SERIAL PRIMARY KEY,
@@ -60,6 +62,5 @@ CREATE TABLE admins(
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
--- INSERT INTO admins (email , password) VALUES ('librarian@example.com' , '$2b$12$dc1CMMpXRv1giih./ccEgOzaWD/rE2apJOLs7bxDXd7SXWzGhUv5S');
 
 COMMIT;
