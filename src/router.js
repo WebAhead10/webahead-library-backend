@@ -9,6 +9,7 @@ import { volunteerSignupController } from "./controllers/volunteerSignupControll
 import { publishersController } from "./controllers/publishersControllers"
 import { setCoordsController } from "./controllers/setCoordsController"
 
+
 const router = Router()
 
 router.post("/upload", s3Controller)
@@ -22,5 +23,7 @@ router.get("/", (req, res) => {
 router.post("/admin/signin", signInController)
 router.post("/admin/signup", addadminController)
 router.get("/publishers", publishersController)
+
+
 
 export default router

@@ -34,18 +34,19 @@ CREATE TABLE newspaper_pages(
     name VARCHAR(255) 
 );
 
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '1', 'HAREEAT_page_1');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '2', 'HAREEAT_page_2');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '3', 'HAREEAT_page_3');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '4', 'HAREEAT_page_4');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '5', 'HAREEAT_page_5');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '6', 'HAREEAT_page_6');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '7', 'HAREEAT_page_7');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '8', 'HAREEAT_page_8');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '9', 'HAREEAT_page_9');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '10', 'HAREEAT_page_10');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '11', 'HAREEAT_page_11');
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES ('1', '12', 'HAREEAT_page_12');
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES 
+('1', '1', 'HAREEAT_page_1'),
+('1', '2', 'HAREEAT_page_2'),
+('1', '3', 'HAREEAT_page_3'),
+('1', '4', 'HAREEAT_page_4'),
+('1', '5', 'HAREEAT_page_5'),
+('1', '6', 'HAREEAT_page_6'),
+('1', '7', 'HAREEAT_page_7'),
+('1', '8', 'HAREEAT_page_8'),
+('1', '9', 'HAREEAT_page_9'),
+('1', '10', 'HAREEAT_page_10'),
+('1', '11', 'HAREEAT_page_11'),
+('1', '12', 'HAREEAT_page_12');
 
 
 CREATE TABLE overlay_coords(
@@ -53,7 +54,6 @@ CREATE TABLE overlay_coords(
     newspaper_id INTEGER REFERENCES newspapers(id),
     coords TEXT
 );
--- INSERT INTO overlay_coords (newspaper_id,coords) VALUES ('1','[{"x":4756.60681369538,"y":330.51214148731304,"width":378.2821562709105,"height":287.21052721097345,"degrees":0},{"x":5330.046355699557,"y":32.4140969014465,"width":176.0542458985219,"height":412.9440855428983,"degrees":0},{"x":5503.883110580155,"y":454.2190584381016,"width":185.9329866218177,"height":343.8565170254213,"degrees":0}]');
 
 CREATE TABLE admins(
     id SERIAL PRIMARY KEY,
@@ -61,6 +61,8 @@ CREATE TABLE admins(
     password VARCHAR(255),
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
+
+
 
 
 COMMIT;
