@@ -7,7 +7,7 @@ CREATE TABLE publishers (
     name VARCHAR(255) UNIQUE,
     logo VARCHAR(500) UNIQUE
 );
-
+ 
 INSERT INTO publishers (name, logo) VALUES ('فلسطين', 'https://www.maan-ctr.org/magazine/files/image/photos/issue117/topics/5/4.jpg');
 INSERT INTO publishers (name, logo) VALUES ('הארץ', 'https://cameraoncampus.org/wp-content/uploads/2017/06/Haaretz.jpg');
 INSERT INTO publishers (name, logo) VALUES ('حيفا نت', 'https://haifanet.co.il/wp-content/themes/haifanet/inc/images/logo.png');
@@ -53,7 +53,7 @@ CREATE TABLE overlay_coords(
     newspaper_id INTEGER REFERENCES newspapers(id),
     coords TEXT
 );
-INSERT INTO overlay_coords (newspaper_id,coords) VALUES ('1','[{"x":4756.60681369538,"y":330.51214148731304,"width":378.2821562709105,"height":287.21052721097345,"degrees":0},{"x":5330.046355699557,"y":32.4140969014465,"width":176.0542458985219,"height":412.9440855428983,"degrees":0},{"x":5503.883110580155,"y":454.2190584381016,"width":185.9329866218177,"height":343.8565170254213,"degrees":0}]');
+-- INSERT INTO overlay_coords (newspaper_id,coords) VALUES ('1','[{"x":4756.60681369538,"y":330.51214148731304,"width":378.2821562709105,"height":287.21052721097345,"degrees":0},{"x":5330.046355699557,"y":32.4140969014465,"width":176.0542458985219,"height":412.9440855428983,"degrees":0},{"x":5503.883110580155,"y":454.2190584381016,"width":185.9329866218177,"height":343.8565170254213,"degrees":0}]');
 
 CREATE TABLE admins(
     id SERIAL PRIMARY KEY,

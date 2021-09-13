@@ -2,16 +2,23 @@ import db from "../../database/connection"
 
 export const getCoords = async (req, res) => {
   const { id } = req.params
-  console.log(id)
+
   try {
     const result = await db.query(
-      `SELECT coords FROM overlay_coords WHERE id=$1`,
+      `SELECT coords, id FROM overlay_coords WHERE newspaper_id=$1`,
       [id]
     )
 
+    const responseData = result.rows.map((overlays) => {
+      return {
+        id: overlays.id,
+        coords: JSON.parse(overlays.coords),
+      }
+    })
+
     res.send({
       success: true,
-      pages: JSON.parse(result.rows[0].coords),
+      pages: responseData,
     })
   } catch (error) {
     console.log(error)

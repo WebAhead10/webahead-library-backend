@@ -1,12 +1,12 @@
 const db = require("../../database/connection.js")
 
 export const setCoordsController = (req, res) => {
-  const coords = req.body
-  
-  console.log(coords)
-  db.query("INSERT INTO overlay_coords (coords) VALUES ($1) RETURNING coords", [
-    coords,
-  ])
+  const { overlays } = req.body
+
+  db.query(
+    "INSERT INTO overlay_coords (coords, newspaper_id) VALUES ($1, $2) RETURNING coords",
+    [JSON.stringify(overlays), req.params.id]
+  )
     .then((results) => {
       return res.status(200).send({
         success: true,
