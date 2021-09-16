@@ -3,6 +3,22 @@ import {
 } from "express"
 
 import {
+  addTag
+} from "./controllers/addTag"
+import {
+  autocomplete
+} from "./controllers/autocomplete"
+import {
+  deleteTag
+} from "./controllers/deleteTag"
+import {
+  allTags
+} from "./controllers/allTags"
+import {
+  attachTag
+} from "./controllers/attachTag"
+
+import {
   s3Controller
 } from "./controllers/uploadImageController"
 import {
@@ -70,7 +86,5 @@ router.get("/", (req, res) => {
 router.post("/admin/signin", signInController)
 router.post("/admin/signup", addadminController)
 router.get("/publishers", publishersController)
-
-
 
 export default router
