@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, tags, newspaper_tags;
 
 CREATE TABLE newspapers(
     id SERIAL PRIMARY KEY,  

@@ -9,6 +9,12 @@ function attachTag(req, res) {
                 message: "Tag was attached successfully"
             })
         })
+        .catch(error => {
+            res.send({
+                success: false,
+                message: "Something went wrong"
+            });
+        })
 }
 
 module.exports = {
