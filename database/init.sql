@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers CASCADE;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers, tags, newspaper_tags CASCADE;
 
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
@@ -62,7 +62,15 @@ CREATE TABLE admins(
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE tags(
+    id SERIAL PRIMARY KEY,
+    tag_name VARCHAR(255)
+);
 
-
+CREATE TABLE newspaper_tags(
+    id SERIAL PRIMARY KEY,
+    newspaper_id VARCHAR(255),
+    tag_id INTEGER REFERENCES tags(id)
+);
 
 COMMIT;
