@@ -1,9 +1,5 @@
-import {
-  Router
-} from "express"
+import { Router } from "express"
 
-import { signin } from "./controllers/signin"
-import { signup } from "./controllers/signup"
 import { addTag } from "./controllers/addTag"
 import { autocomplete } from "./controllers/autocomplete"
 import { deleteTag } from "./controllers/deleteTag"
@@ -19,12 +15,9 @@ import { volunteerSignupController } from "./controllers/volunteerSignupControll
 import { publishersController } from "./controllers/publishersControllers"
 import { setCoordsController } from "./controllers/setCoordsController"
 
-
 const router = Router()
 
 router.post("/upload", s3Controller)
-router.post("/signin", signin)
-router.post("/signup", signup)
 router.post("/addTag", addTag)
 router.post("/autocomplete", autocomplete)
 router.delete("/deleteTag", deleteTag)
@@ -40,7 +33,5 @@ router.get("/", (req, res) => {
 router.post("/admin/signin", signInController)
 router.post("/admin/signup", addadminController)
 router.get("/publishers", publishersController)
-
-
 
 export default router
