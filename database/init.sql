@@ -1,10 +1,6 @@
 BEGIN;
 
-<<<<<<< HEAD
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, tags, newspaper_tags;
-=======
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers CASCADE;
->>>>>>> e5d77d88da9062317cdda4ef87b743b632ee090c
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers, tags, newspaper_tags CASCADE;
 
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  

@@ -9,12 +9,6 @@ import {
   getNewspaper
 } from "./controllers/newspaperController"
 import {
-  signin
-} from "./controllers/signin"
-import {
-  signup
-} from "./controllers/signup"
-import {
   addTag
 } from "./controllers/addTag"
 import {
@@ -59,8 +53,6 @@ import {
 const router = Router()
 
 router.post("/upload", s3Controller)
-router.post("/signin", signin)
-router.post("/signup", signup)
 router.post("/addTag", addTag)
 router.post("/autocomplete", autocomplete)
 router.delete("/deleteTag", deleteTag)
