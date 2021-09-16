@@ -11,7 +11,14 @@ aws.config.region = process.env.AWS_REGION
 
 export const s3Controller = async (req, res) => {
   // newspaperName should include the date in it
-  const { file, index, newspaperName, isNewPage } = req.body
+  const {
+    file,
+    index,
+    newspaperName,
+    isNewPage,
+    published_date,
+    publisher_id,
+  } = req.body
 
   let fileContent = Buffer.from(
     file.replace(/^data:image\/\w+;base64,/, ""),
@@ -25,9 +32,11 @@ export const s3Controller = async (req, res) => {
   var newspaperId
 
   try {
-    const result = await db.query("SELECT * FROM newspapers WHERE name = $1", [
-      newspaperName,
-    ])
+    const result = await db.query(
+      `SELECT * FROM newspapers 
+        WHERE published_date = $1 AND publisher_id = $2 `,
+      [published_date, publisher_id]
+    )
 
     // If the newspaper exists
     if (result.rows.length && !isNewPage) {
@@ -43,8 +52,8 @@ export const s3Controller = async (req, res) => {
       // Add new newspaper
     } else {
       const insertResult = await db.query(
-        "INSERT INTO newspapers (name) VALUES ($1) RETURNING id",
-        [newspaperName]
+        "INSERT INTO newspapers (published_date, publisher_id) VALUES ($1, $2) RETURNING id",
+        [published_date, publisher_id]
       )
 
       newspaperId = insertResult.rows[0].id
@@ -111,7 +120,7 @@ export const s3Controller = async (req, res) => {
 
         try {
           await db.query(
-            "INSERT INTO newspaper_pages (name, page_number, newspaper_id) VALUES ($1, $2, $3)",
+            `INSERT INTO newspaper_pages (name, page_number, newspaper_id) VALUES ($1, $2, $3)`,
             [pageName, index + 1, newspaperId]
           )
           await del(`${pageName}_files`)
