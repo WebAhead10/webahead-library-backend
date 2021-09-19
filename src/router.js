@@ -8,6 +8,8 @@ import { addadminController } from "./controllers/addAdminController"
 import { volunteerSignupController } from "./controllers/volunteerSignupController"
 import { publishersController } from "./controllers/publishersControllers"
 import { setCoordsController } from "./controllers/setCoordsController"
+import { updateArticleController } from "./controllers/updateArticleController"
+import { getContentController } from "./controllers/getContentController"
 
 
 const router = Router()
@@ -17,12 +19,15 @@ router.post("/volunteer/signup", volunteerSignupController)
 router.get("/newspaper/:id", getNewspaper)
 router.post("/newspaper/coords/:id", setCoordsController)
 router.get("/newspaper/coords/:id", getCoords)
+router.get("/newspaper/content/:id", getContentController)
 router.get("/", (req, res) => {
   res.send("Server's homepage, lovely")
 })
 router.post("/admin/signin", signInController)
 router.post("/admin/signup", addadminController)
 router.get("/publishers", publishersController)
+router.get("/publishers", publishersController)
+router.put("/update/article/:id", updateArticleController)
 
 
 
