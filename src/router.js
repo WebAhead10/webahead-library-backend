@@ -1,5 +1,11 @@
 import { Router } from "express"
 
+import { addTag } from "./controllers/addTag"
+import { autocomplete } from "./controllers/autocomplete"
+import { deleteTag } from "./controllers/deleteTag"
+import { allTags } from "./controllers/allTags"
+import { attachTag } from "./controllers/attachTag"
+
 import { s3Controller } from "./controllers/uploadImageController"
 import { getNewspaper } from "./controllers/newspaperController"
 import { getCoords } from "./controllers/getCoordsControllers"
@@ -11,10 +17,15 @@ import { setCoordsController } from "./controllers/setCoordsController"
 import { updateArticleController } from "./controllers/updateArticleController"
 import { getContentController } from "./controllers/getContentController"
 
-
 const router = Router()
 
 router.post("/upload", s3Controller)
+router.post("/addTag", addTag)
+router.post("/autocomplete", autocomplete)
+router.delete("/deleteTag", deleteTag)
+router.get("/allTags", allTags)
+router.post("/attachTag", attachTag)
+
 router.post("/volunteer/signup", volunteerSignupController)
 router.get("/newspaper/:id", getNewspaper)
 router.post("/newspaper/coords/:id", setCoordsController)
@@ -28,7 +39,5 @@ router.post("/admin/signup", addadminController)
 router.get("/publishers", publishersController)
 router.get("/publishers", publishersController)
 router.put("/update/article/:id", updateArticleController)
-
-
 
 export default router
