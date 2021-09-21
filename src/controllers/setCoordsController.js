@@ -4,7 +4,7 @@ export const setCoordsController = (req, res) => {
   const { overlays } = req.body
 
   db.query(
-    "INSERT INTO overlay_coords (coords, newspaper_id) VALUES ($1, $2) RETURNING coords",
+    "INSERT INTO overlay_coords (coords, newspaper_id , content) VALUES ($1, $2, 'type youre text here') RETURNING coords",
     [JSON.stringify(overlays), req.params.id]
   )
     .then((results) => {
