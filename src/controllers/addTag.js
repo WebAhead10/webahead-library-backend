@@ -4,7 +4,7 @@ function addTag(req, res) {
   const input = req.body.tag
   // { tag: 'sport' }
 
-  db.query(`SELECT * FROM tags WHERE tag_name=$1`, [input.tag_name])
+  db.query(`SELECT * FROM tags WHERE tag_name=$1`, [input])
     .then((result) => {
       //Checking if the tags table has the new added tag, if not we will add it
       if (!result.rows.length) {
@@ -14,7 +14,7 @@ function addTag(req, res) {
         ]).then((result) => {
           res.send({
             success: true,
-            tag_id: result.rows[0].id,
+            tagId: result.rows[0].id,
           })
         })
       } else {
