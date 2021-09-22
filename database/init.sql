@@ -26,6 +26,7 @@ CREATE TABLE newspapers(
 );
 
 INSERT INTO newspapers (published_date, publisher_id) VALUES ('2021-09-05', '2');
+INSERT INTO newspapers (published_date, publisher_id) VALUES ('1924-02-02', '1');
 
 CREATE TABLE newspaper_pages(
     id SERIAL PRIMARY KEY,  
@@ -47,6 +48,14 @@ INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES
 ('1', '10', 'HAREEAT_page_10'),
 ('1', '11', 'HAREEAT_page_11'),
 ('1', '12', 'HAREEAT_page_12');
+
+INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES 
+('2', '14', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_1'),
+('2', '15', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_2'),
+('2', '16', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_3'),
+('2', '17', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_4'),
+('2', '18', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_5'),
+('2', '19', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_6');
 
 
 CREATE TABLE overlay_coords(
