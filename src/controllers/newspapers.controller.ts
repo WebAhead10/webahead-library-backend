@@ -1,15 +1,64 @@
+import { Request, Response } from "express"
+import db from "../database/connection"
 import * as aws from "aws-sdk"
 import sharp from "sharp"
 import del from "del"
 import fs from "fs"
 import path from "path"
-import db from "../../database/connection"
 
 require("dotenv").config()
 
 aws.config.region = process.env.AWS_REGION
 
-export const s3Controller = async (req, res) => {
+const get = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  try {
+    const result = await db.query(
+      `SELECT  newspaper_pages.name as pageName, 
+                      newspaper_pages.page_number as pageNumber
+                      FROM newspapers 
+                      LEFT JOIN newspaper_pages ON newspapers.id = newspaper_pages.newspaper_id
+                      WHERE newspapers.id = $1
+                      ORDER BY newspaper_pages.page_number DESC`,
+      [id]
+    )
+
+    res.send({
+      success: true,
+      pages: result.rows,
+    })
+  } catch (error: any) {
+    res.send({
+      success: false,
+      message: error.message || "Something went wrong",
+    })
+  }
+}
+
+const getPublishers = async (req: Request, res: Response) => {
+  try {
+    const result = await db.query("SELECT * FROM publishers")
+
+    return res.status(200).send({
+      success: true,
+      publisher: result.rows,
+    })
+  } catch (error: any) {
+    res.send({
+      success: false,
+      message: error.message || "Something went wrong",
+    })
+  }
+}
+
+interface UploadParams {
+  Bucket: string
+  Key: string
+  Body: Buffer
+}
+
+const upload = async (req: Request, res: Response) => {
   // newspaperName should include the date in it
   const {
     file,
@@ -26,10 +75,10 @@ export const s3Controller = async (req, res) => {
   )
 
   const s3 = new aws.S3({ signatureVersion: "v4" })
-  let S3_BUCKET = process.env.S3_BUCKET
+  let S3_BUCKET = process.env.S3_BUCKET || ""
 
   const pageName = `${newspaperName}_page_${index + 1}`
-  var newspaperId
+  var newspaperId: number
 
   try {
     const result = await db.query(
@@ -78,7 +127,7 @@ export const s3Controller = async (req, res) => {
         return
       }
 
-      const walkSync = (currentDirPath, callback) => {
+      const walkSync = (currentDirPath: string, callback: Function) => {
         fs.readdirSync(currentDirPath).forEach((name) => {
           const filePath = path.join(currentDirPath, name)
           const stat = fs.statSync(filePath)
@@ -91,9 +140,9 @@ export const s3Controller = async (req, res) => {
         })
       }
 
-      walkSync(`${pageName}_files`, async (filePath) => {
+      walkSync(`${pageName}_files`, async (filePath: string) => {
         let bucketPath = filePath.substring(`${pageName}_files`.length + 1)
-        let params = {
+        let params: UploadParams = {
           Bucket: S3_BUCKET,
           Key: `misc/${newspaperName}/${pageName}/${pageName}_files/${bucketPath}`,
           Body: fs.readFileSync(filePath),
@@ -113,7 +162,7 @@ export const s3Controller = async (req, res) => {
         Body: fs.readFileSync(`${pageName}.dzi`),
       }
 
-      s3.upload(params, async function (err, data) {
+      s3.upload(params, async function (err: any) {
         if (err) {
           throw err
         }
@@ -134,3 +183,5 @@ export const s3Controller = async (req, res) => {
       })
     })
 }
+
+export default { get, getPublishers, upload }

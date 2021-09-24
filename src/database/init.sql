@@ -1,6 +1,7 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers, tags, newspaper_tags CASCADE;
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers, 
+tags, document_tag, overlay_tag CASCADE;
 
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
@@ -58,9 +59,9 @@ INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES
 ('2', '19', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_6');
 
 
-CREATE TABLE overlay_coords(
+CREATE TABLE overlay_coords (
     id SERIAL PRIMARY KEY,  
-    newspaper_id INTEGER REFERENCES newspapers(id),
+    document_id INTEGER REFERENCES newspapers(id),
     coords TEXT,
     content TEXT 
 );
@@ -72,14 +73,20 @@ CREATE TABLE admins(
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE tags(
+CREATE TABLE tags (
     id SERIAL PRIMARY KEY,
-    tag_name VARCHAR(255)
+    tag_name VARCHAR(255) UNIQUE
 );
 
-CREATE TABLE newspaper_tags(
+CREATE TABLE document_tag (
     id SERIAL PRIMARY KEY,
-    newspaper_id VARCHAR(255),
+    document_id VARCHAR(255),
+    tag_id INTEGER REFERENCES tags(id)
+);
+
+CREATE TABLE overlay_tag (
+    id SERIAL PRIMARY KEY,
+    overlay_id VARCHAR(255),
     tag_id INTEGER REFERENCES tags(id)
 );
 
