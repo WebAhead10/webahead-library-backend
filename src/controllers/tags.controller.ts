@@ -5,6 +5,7 @@ import { Tag } from "../interfaces/tables"
 // Adds a tag
 const add = async (req: Request, res: Response) => {
   const input = req.body.tag
+
   try {
     const result = await db.query(
       `INSERT INTO tags(tag_name) VALUES ($1) RETURNING id`,
@@ -66,7 +67,7 @@ const attachToDocument = async (req: Request, res: Response) => {
 
     await db.query(
       `INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)`,
-      [data.newspaper_id, data.tag_id]
+      [data.documentId, data.tagId]
     )
 
     res.send({
@@ -86,8 +87,8 @@ const attachToOverlay = async (req: Request, res: Response) => {
     const data = req.body
 
     await db.query(
-      `INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)`,
-      [data.documentId, data.tagId]
+      `INSERT INTO overlay_tag (overlay_id, tag_id) VALUES ($1, $2)`,
+      [data.overlayId, data.tagId]
     )
 
     res.send({
@@ -105,10 +106,10 @@ const attachToOverlay = async (req: Request, res: Response) => {
 const autocomplete = async (req: Request, res: Response) => {
   try {
     const input = req.params.q
-    const result = await db.query(
-      `SELECT * FROM tags WHERE tag_name LIKE '%$1%'`,
-      [input]
-    )
+
+    const result = await db.query(`SELECT * FROM tags WHERE tag_name LIKE $1`, [
+      `%${input}%`,
+    ])
 
     res.send({
       success: true,

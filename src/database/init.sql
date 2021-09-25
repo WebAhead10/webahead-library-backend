@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlay_coords, admins, publishers, 
+DROP TABLE IF EXISTS newspapers, newspaper_pages, overlays, admins, publishers, 
 tags, document_tag, overlay_tag CASCADE;
 
 CREATE TABLE publishers (  
@@ -59,7 +59,7 @@ INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES
 ('2', '19', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_6');
 
 
-CREATE TABLE overlay_coords (
+CREATE TABLE overlays (
     id SERIAL PRIMARY KEY,  
     document_id INTEGER REFERENCES newspapers(id),
     coords TEXT,

@@ -6,7 +6,9 @@ module.exports = {
   apps: [
     {
       name: "Webahead library backend",
-      script: path.resolve(__dirname, "../src", "run-server.js"),
+      // script: path.resolve(__dirname, "../src", "run-server.js"),
+      script: "ts-node",
+      args: "src/run-server.ts",
       out_file: path.resolve(__dirname, "../", "logs", "output-pm2.log"),
       error_file: path.resolve(__dirname, "../", "logs", "error-pm2.log"),
       merge_logs: true,

@@ -29,12 +29,12 @@ const add = async (req: Request, res: Response) => {
 
     const hash = await bcrypt.hash(password, 10)
 
-    await db.query(
+    const adminResult = await db.query(
       `INSERT INTO admins (email, password) VALUES ($1, $2) RETURNING id`,
       [email, hash]
     )
 
-    const token = jwt.sign({ id: result.rows[0].id }, secret)
+    const token = jwt.sign({ id: adminResult.rows[0].id }, secret)
 
     res.status(200).send({
       success: true,

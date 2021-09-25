@@ -14,17 +14,18 @@ router.get("/tag/autocomplete/:q", tags.autocomplete)
 router.get("/tag/delete/:id", tags.delete)
 router.get("/tag/all", tags.all)
 router.post("/tag/attach/document", tags.attachToDocument)
+router.post("/tag/attach/overlay", tags.attachToOverlay)
 
 router.get("/newspaper/:id", newspaper.get)
 router.get("/publishers", newspaper.getPublishers)
 
-router.get("/newspaper/content/:id", overlays.getText)
-router.post("/newspaper/coords/:id", overlays.setText)
-router.get("/newspaper/coords/:id", overlays.getCoords)
-router.put("/update/article/:id", overlays.setCoords)
+router.get("/overlay/content/:id", overlays.getText)
+router.post("/overlay/content/:id", overlays.setText)
+router.get("/overlay/coords/:id", overlays.getCoords)
+router.post("/overlay/coords/:id", overlays.setCoords)
 
 router.post("/admin/signin", admin.signin)
-router.post("/admin/signup", admin.add)
+router.post("/admin/add", admin.add)
 
 router.get("/", (req, res) => {
   res.send("Server's homepage, lovely")

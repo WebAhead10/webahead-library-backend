@@ -6,10 +6,16 @@ const getText = async (req: Request, res: Response) => {
   const { id } = req.params
 
   try {
-    const result = await db.query(
-      `SELECT content FROM overlay_coords WHERE id=$1`,
-      [id]
-    )
+    const result = await db.query(`SELECT content FROM overlays WHERE id=$1`, [
+      id,
+    ])
+
+    if (!result.rows.length) {
+      return res.send({
+        success: false,
+        message: "Overlay does not exist",
+      })
+    }
 
     res.send({
       success: true,
@@ -28,10 +34,7 @@ const setText = async (req: Request, res: Response) => {
   const id = req.params.id
 
   try {
-    await db.query("UPDATE overlay_coords SET content = $1 WHERE id = $2", [
-      text,
-      id,
-    ])
+    await db.query("UPDATE overlays SET content = $1 WHERE id = $2", [text, id])
 
     res.status(200).send({
       success: true,
@@ -49,7 +52,7 @@ const getCoords = async (req: Request, res: Response) => {
 
   try {
     const result = await db.query(
-      `SELECT coords, id FROM overlay_coords WHERE document_id=$1`,
+      `SELECT coords, id FROM overlays WHERE document_id=$1`,
       [id]
     )
 
@@ -72,13 +75,15 @@ const getCoords = async (req: Request, res: Response) => {
   }
 }
 
+// An overlay can made up of multiple coords, think about an article
+// in a newspaper split between 2 pages.
 const setCoords = async (req: Request, res: Response) => {
   const { overlays } = req.body
   const { id } = req.params
 
   try {
     await db.query(
-      "INSERT INTO overlay_coords (coords, document_id , content) VALUES ($1, $2, 'type youre text here') RETURNING coords",
+      "INSERT INTO overlays (coords, document_id , content) VALUES ($1, $2, '') RETURNING coords",
       [JSON.stringify(overlays), id]
     )
 
