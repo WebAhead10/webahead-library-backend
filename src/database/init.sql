@@ -18,12 +18,13 @@ INSERT INTO publishers (name, logo) VALUES ('الجزيرة', 'http://www.wasmen
 CREATE TABLE newspapers(
     id SERIAL UNIQUE,  
     published_date DATE,
-    publisher_id INTEGER,  
-    CONSTRAINT fk_publisher FOREIGN KEY(publisher_id) REFERENCES publishers(id),
-    PRIMARY KEY(
-        publisher_id,
-        published_date
-    )
+    publisher_id INTEGER,
+    newspaper_key TEXT UNIQUE
+    -- CONSTRAINT fk_publisher FOREIGN KEY(publisher_id) REFERENCES publishers(id),
+    -- PRIMARY KEY(
+    --     publisher_id,
+    --     published_date
+    -- )
 );
 
 INSERT INTO newspapers (published_date, publisher_id) VALUES ('2021-09-05', '2');

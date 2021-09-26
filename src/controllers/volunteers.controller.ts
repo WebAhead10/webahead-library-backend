@@ -1,5 +1,5 @@
-import { Request, Response } from "express"
-import db from "../database/connection"
+import { Request, Response } from 'express'
+import db from '../database/connection'
 
 const signup = async (req: Request, res: Response) => {
   try {
@@ -7,7 +7,7 @@ const signup = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.send({
       success: false,
-      message: error.message || "Something went wrong",
+      message: error.message || 'Something went wrong'
     })
   }
 }
@@ -18,7 +18,7 @@ const signin = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.send({
       success: false,
-      message: error.message || "Something went wrong",
+      message: error.message || 'Something went wrong'
     })
   }
 }
