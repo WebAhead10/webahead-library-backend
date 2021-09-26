@@ -1,12 +1,12 @@
 # Webahead library API
 
-> Please if you feel like something is missing from the README then either raise an issue or contact me.
+> Please if you feel like something is missing from the README then either raise an issue or contact me. (or if there is a typo :sweat_smile:)
 
 ## Setup
 
 - Clone repo
 - `npm i`
-- ask @Karyum for the enviroment varialbes.
+- ask @Karyum for the enviroment variables.
 
 
 ## API routes
