@@ -7,7 +7,7 @@
 - Clone repo
 - `npm i`
 - ask @Karyum for the enviroment variables.
-
+- `npm run build:db` to build the database
 
 ## API routes
 
