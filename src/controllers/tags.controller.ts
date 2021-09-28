@@ -62,7 +62,7 @@ const attachToDocument = async (req: Request, res: Response) => {
   try {
     const data = req.body
 
-    await db.query(`INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)`, [data.documentId, data.tagId])
+    await db.query('INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)', [data.documentId, data.tagId])
 
     res.send({
       success: true

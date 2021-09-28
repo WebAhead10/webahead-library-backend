@@ -17,6 +17,7 @@ router.post('/tag/attach/document', tags.attachToDocument)
 router.post('/tag/attach/overlay', tags.attachToOverlay)
 
 router.get('/newspaper/:id', newspaper.get)
+router.post('/newspaper', newspaper.save)
 router.get('/publishers', newspaper.getPublishers)
 
 router.get('/overlay/content/:id', overlays.getText)

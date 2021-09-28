@@ -5,6 +5,7 @@ import sharp from 'sharp'
 import del from 'del'
 import fs from 'fs'
 import path from 'path'
+import { Tag } from '../interfaces/tables'
 
 require('dotenv').config()
 
@@ -173,4 +174,31 @@ const upload = async (req: Request, res: Response) => {
     })
 }
 
-export default { get, getPublishers, upload }
+const save = async (req: Request, res: Response) => {
+  try {
+    const { date, documentId, publisher, tags } = req.body
+
+    await db.query('UPDATE newspapers SET publisher_id = $1, published_date = $2 WHERE id = $3', [
+      publisher,
+      date,
+      documentId
+    ])
+
+    await Promise.all(
+      tags.map(({ id }: Tag) =>
+        db.query('INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)', [documentId, id])
+      )
+    )
+
+    res.send({
+      success: true
+    })
+  } catch (error: any) {
+    res.send({
+      success: false,
+      message: error.message || 'Something went wrong'
+    })
+  }
+}
+
+export default { get, getPublishers, upload, save }
