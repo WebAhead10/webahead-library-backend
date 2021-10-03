@@ -27,8 +27,7 @@ CREATE TABLE newspapers(
     -- )
 );
 
-INSERT INTO newspapers (published_date, publisher_id) VALUES ('2021-09-05', '2');
-INSERT INTO newspapers (published_date, publisher_id) VALUES ('1924-02-02', '1');
+INSERT INTO newspapers (published_date, publisher_id, newspaper_key) VALUES ('2021-09-05', '1', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6');
 
 CREATE TABLE newspaper_pages(
     id SERIAL PRIMARY KEY,  
@@ -37,27 +36,14 @@ CREATE TABLE newspaper_pages(
     name VARCHAR(255) 
 );
 
-INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES 
-('1', '1', 'HAREEAT_page_1'),
-('1', '2', 'HAREEAT_page_2'),
-('1', '3', 'HAREEAT_page_3'),
-('1', '4', 'HAREEAT_page_4'),
-('1', '5', 'HAREEAT_page_5'),
-('1', '6', 'HAREEAT_page_6'),
-('1', '7', 'HAREEAT_page_7'),
-('1', '8', 'HAREEAT_page_8'),
-('1', '9', 'HAREEAT_page_9'),
-('1', '10', 'HAREEAT_page_10'),
-('1', '11', 'HAREEAT_page_11'),
-('1', '12', 'HAREEAT_page_12');
 
 INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES 
-('2', '14', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_1'),
-('2', '15', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_2'),
-('2', '16', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_3'),
-('2', '17', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_4'),
-('2', '18', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_5'),
-('2', '19', '1924-02-02-publisherId-1-84626c0f-cca0-4aed-9f28-16a400ed11ad_page_6');
+('1', '1', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_1'),
+('1', '2', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_2'),
+('1', '3', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_3'),
+('1', '4', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_4'),
+('1', '5', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_5'),
+('1', '6', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_6');
 
 
 CREATE TABLE overlays (

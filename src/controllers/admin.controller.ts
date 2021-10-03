@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import db from '../database/connection'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 const secret = process.env.JWT_SECRET || ''
