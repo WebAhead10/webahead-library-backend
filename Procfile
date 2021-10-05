@@ -1,1 +1,1 @@
-web: ts-node --optimize_for_size --max_old_space_size=920 src/run-server.ts
+web: node --optimize_for_size --max_old_space_size=920 -- node_modules/.bin/ts-node src/run-server.ts
