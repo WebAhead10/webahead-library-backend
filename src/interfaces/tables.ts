@@ -14,3 +14,10 @@ export interface OverlayCoord {
   height: number
   width: number
 }
+
+export interface Newspaper {
+  id: number
+  published_date: Date
+  publisher_id: number
+  newspaper_key: string
+}

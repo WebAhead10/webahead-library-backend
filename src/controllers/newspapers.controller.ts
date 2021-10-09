@@ -5,54 +5,38 @@ import sharp from 'sharp'
 import del from 'del'
 import fs from 'fs'
 import path from 'path'
-import { Tag } from '../interfaces/tables'
+import { IRandomKeys, Tag, Newspaper } from '../interfaces'
+import config from '../config'
+import { ApiError, catchAsync } from '../utils'
+import httpStatus from 'http-status'
 
-require('dotenv').config()
+aws.config.region = config.aws.region
 
-aws.config.region = process.env.AWS_REGION
-
-const get = async (req: Request, res: Response) => {
+const get = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params
 
-  try {
-    const result = await db.query(
-      `SELECT  newspaper_pages.name as pageName, 
-                      newspaper_pages.page_number as pageNumber,
-                      newspapers.newspaper_key as newspaperKey
-                      FROM newspapers 
-                      LEFT JOIN newspaper_pages ON newspapers.id = newspaper_pages.newspaper_id
-                      WHERE newspapers.id = $1
-                      ORDER BY newspaper_pages.page_number DESC`,
-      [id]
-    )
+  const result = await db.query(
+    `SELECT newspaper_pages.name as pageName, 
+            newspaper_pages.page_number as pageNumber,
+            newspapers.newspaper_key as newspaperKey
+            FROM newspapers 
+            LEFT JOIN newspaper_pages ON newspapers.id = newspaper_pages.newspaper_id
+            WHERE newspapers.id = $1
+            ORDER BY newspaper_pages.page_number DESC`,
+    [id]
+  )
 
-    res.send({
-      success: true,
-      pages: result.rows
-    })
-  } catch (error: any) {
-    res.send({
-      success: false,
-      message: error.message || 'Something went wrong'
-    })
-  }
-}
+  res.send({ success: true, pages: result.rows })
+})
 
-const getPublishers = async (req: Request, res: Response) => {
-  try {
-    const result = await db.query('SELECT * FROM publishers')
+const getPublishers = catchAsync(async (req: Request, res: Response) => {
+  const result = await db.query('SELECT * FROM publishers')
 
-    return res.status(200).send({
-      success: true,
-      publisher: result.rows
-    })
-  } catch (error: any) {
-    res.send({
-      success: false,
-      message: error.message || 'Something went wrong'
-    })
-  }
-}
+  return res.status(httpStatus.OK).send({
+    success: true,
+    publisher: result.rows
+  })
+})
 
 interface UploadParams {
   Bucket: string
@@ -67,7 +51,7 @@ const upload = async (req: Request, res: Response) => {
   let fileContent = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ''), 'base64')
 
   const s3 = new aws.S3({ signatureVersion: 'v4' })
-  let S3_BUCKET = process.env.S3_BUCKET || ''
+  let S3_BUCKET = config.aws.bucket
 
   const pageName = `${documentName}_page_${index + 1}`
   var documentId: number | null
@@ -92,9 +76,10 @@ const upload = async (req: Request, res: Response) => {
       // Add new newspaper
     } else {
       // initialize to save the newspaper pages and get the id
-      const insertResult = await db.query('INSERT INTO newspapers (newspaper_key) VALUES ($1) RETURNING id', [
-        documentName
-      ])
+      const insertResult = await db.query(
+        'INSERT INTO newspapers (newspaper_key) VALUES ($1) RETURNING id',
+        [documentName]
+      )
 
       documentId = insertResult.rows[0].id
     }
@@ -157,11 +142,10 @@ const upload = async (req: Request, res: Response) => {
         }
 
         try {
-          await db.query(`INSERT INTO newspaper_pages (name, page_number, newspaper_id) VALUES ($1, $2, $3)`, [
-            pageName,
-            index + 1,
-            documentId
-          ])
+          await db.query(
+            `INSERT INTO newspaper_pages (name, page_number, newspaper_id) VALUES ($1, $2, $3)`,
+            [pageName, index + 1, documentId]
+          )
           await del(`${pageName}_files`)
           await del(`${pageName}.dzi`)
 
@@ -174,31 +158,126 @@ const upload = async (req: Request, res: Response) => {
     })
 }
 
-const save = async (req: Request, res: Response) => {
-  try {
-    const { date, documentId, publisher, tags } = req.body
+const save = catchAsync(async (req: Request, res: Response) => {
+  const { date, documentId, publisher, tags } = req.body
 
-    await db.query('UPDATE newspapers SET publisher_id = $1, published_date = $2 WHERE id = $3', [
-      publisher,
-      date,
-      documentId
-    ])
+  await db.query('UPDATE newspapers SET publisher_id = $1, published_date = $2 WHERE id = $3', [
+    publisher,
+    date,
+    documentId
+  ])
 
-    await Promise.all(
-      tags.map(({ id }: Tag) =>
-        db.query('INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)', [documentId, id])
-      )
+  await Promise.all(
+    tags.map(({ id }: Tag) =>
+      db.query('INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)', [documentId, id])
     )
+  )
 
-    res.send({
-      success: true
-    })
-  } catch (error: any) {
-    res.send({
-      success: false,
-      message: error.message || 'Something went wrong'
-    })
+  res.send({ success: true })
+})
+
+const addPublisher = catchAsync(async (req: Request, res: Response) => {
+  const { name, logo } = req.body
+
+  if (!name || !logo) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Missing data')
   }
+
+  await db.query('INSERT INTO publishers (name, logo) VALUES ($1, $2)', [name, logo])
+
+  res.status(httpStatus.OK).send({ success: true })
+})
+
+const monthNumberToName: IRandomKeys = {
+  '01': 'يناير',
+  '02': 'فبراير',
+  '03': 'مارس',
+  '04': 'ابريل',
+  '05': 'مايو',
+  '06': 'يونيو',
+  '07': 'يوليو',
+  '08': 'أغسطس',
+  '09': 'سبتمبر',
+  '10': 'أكتوبر',
+  '11': 'نوفمبر',
+  '12': 'ديسامبر'
 }
 
-export default { get, getPublishers, upload, save }
+const monthNameToNumber: IRandomKeys = {
+  يناير: '01',
+  فبراير: '02',
+  مارس: '03',
+  ابريل: '04',
+  مايو: '05',
+  يونيو: '06',
+  يوليو: '07',
+  أغسطس: '08',
+  سبتمبر: '09',
+  أكتوبر: '10',
+  نوفمبر: '11',
+  ديسامبر: '12'
+}
+
+const getPublishDates = catchAsync(async (req: Request, res: Response) => {
+  const { publisherId } = req.params
+
+  if (!publisherId) throw new ApiError(httpStatus.BAD_REQUEST, 'Publisher does not exist')
+
+  const dbRes = await db.query('SELECT * FROM newspapers WHERE publisher_id = $1', [publisherId])
+
+  if (!dbRes.rows.length) throw new ApiError(httpStatus.BAD_REQUEST, 'Publisher does not exist')
+
+  let yearsMonth: { [key: string]: string[] } = {}
+
+  dbRes.rows.forEach(({ published_date }: Newspaper) => {
+    const date = published_date.toISOString().split('T')[0]
+    const [year, monthRaw] = date.split('-')
+
+    if (!yearsMonth[year]) {
+      yearsMonth[year] = []
+    }
+
+    if (!yearsMonth[year].includes(monthRaw)) {
+      yearsMonth[year] = yearsMonth[year].concat(monthRaw)
+      yearsMonth[year].sort()
+    }
+  })
+
+  Object.keys(yearsMonth).forEach((year) => {
+    yearsMonth[year] = yearsMonth[year].map((month: string) => monthNumberToName[month])
+  })
+
+  res.status(httpStatus.OK).send({ success: true, data: yearsMonth })
+})
+
+const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
+  const { publisherId, year, month } = req.params
+
+  if (!publisherId || !year || !month)
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Publisher does not exist')
+
+  const dateStart = `${year}-${monthNameToNumber[month]}-01`
+  const dateEnd = `${year}-${monthNameToNumber[month]}-31`
+
+  const dbRes = await db.query(
+    'SELECT * FROM newspapers WHERE publisher_id = $1 AND published_date between $2 and $3',
+    [publisherId, dateStart, dateEnd]
+  )
+
+  const publishedDays = dbRes.rows.map(({ id, published_date }: Newspaper) => ({
+    id,
+    day: published_date.toISOString().split('T')[0].split('-')[2]
+  }))
+
+  res.status(httpStatus.OK).send({ success: true, data: publishedDays })
+})
+
+export default {
+  get,
+  getPublishers,
+  upload,
+  save,
+  addPublisher,
+  getPublishDates,
+  getPublishDatesDays
+}

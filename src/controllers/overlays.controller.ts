@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import db from '../database/connection'
-import { Overlay } from '../interfaces/tables'
+import { Overlay } from '../interfaces'
 
 const getText = async (req: Request, res: Response) => {
   const { id } = req.params
@@ -77,10 +77,10 @@ const setCoords = async (req: Request, res: Response) => {
   const { id } = req.params
 
   try {
-    await db.query("INSERT INTO overlays (coords, document_id , content) VALUES ($1, $2, '') RETURNING coords", [
-      JSON.stringify(overlays),
-      id
-    ])
+    await db.query(
+      "INSERT INTO overlays (coords, document_id , content) VALUES ($1, $2, '') RETURNING coords",
+      [JSON.stringify(overlays), id]
+    )
 
     return res.status(200).send({
       success: true

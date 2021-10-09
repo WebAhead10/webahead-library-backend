@@ -1,9 +1,7 @@
 const pg = require('pg')
-const dotenv = require('dotenv')
+import config from '../config'
 
-dotenv.config()
-
-const connectionString: string = process.env.DATABASE_URL || ''
+const connectionString: string = config.dbUrl
 const isProd = connectionString.includes('compute.amazonaws.com')
 
 const db = new pg.Pool({

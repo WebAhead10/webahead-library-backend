@@ -13,6 +13,7 @@ INSERT INTO publishers (name, logo) VALUES ('فلسطين', 'https://www.maan-ct
 INSERT INTO publishers (name, logo) VALUES ('حيفا نت', 'https://haifanet.co.il/wp-content/themes/haifanet/inc/images/logo.png');
 INSERT INTO publishers (name, logo) VALUES ('الفجر', 'https://aqlam-moqawema.org/wp-content/uploads/2021/06/%D8%B5%D8%AD%D8%A7%D9%81%D8%A9.gif');
 INSERT INTO publishers (name, logo) VALUES ('الجزيرة', 'http://www.wasmenia.com/wp-content/uploads/2017/11/Al-Jazirah-01.svg');
+INSERT INTO publishers (name, logo) VALUES ('القدس', 'https://cdn.pixabay.com/photo/2017/07/10/19/12/al-quds-2491115_960_720.png');
 
 CREATE TABLE newspapers(
     id SERIAL UNIQUE,  

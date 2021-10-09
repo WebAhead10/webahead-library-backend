@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import db from '../database/connection'
-import { Tag } from '../interfaces/tables'
+import { Tag } from '../interfaces'
 
 // Adds a tag
 const add = async (req: Request, res: Response) => {
@@ -62,7 +62,10 @@ const attachToDocument = async (req: Request, res: Response) => {
   try {
     const data = req.body
 
-    await db.query('INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)', [data.documentId, data.tagId])
+    await db.query('INSERT INTO document_tag (document_id, tag_id) VALUES ($1, $2)', [
+      data.documentId,
+      data.tagId
+    ])
 
     res.send({
       success: true
@@ -80,7 +83,10 @@ const attachToOverlay = async (req: Request, res: Response) => {
   try {
     const data = req.body
 
-    await db.query(`INSERT INTO overlay_tag (overlay_id, tag_id) VALUES ($1, $2)`, [data.overlayId, data.tagId])
+    await db.query(`INSERT INTO overlay_tag (overlay_id, tag_id) VALUES ($1, $2)`, [
+      data.overlayId,
+      data.tagId
+    ])
 
     res.send({
       success: true
