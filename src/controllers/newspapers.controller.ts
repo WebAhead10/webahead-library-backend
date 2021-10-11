@@ -218,6 +218,7 @@ const monthNameToNumber: IRandomKeys = {
   ديسامبر: '12'
 }
 
+// Takes a publisherId and returns all of the newspapers for that publisher
 const getPublishDates = catchAsync(async (req: Request, res: Response) => {
   const { publisherId } = req.params
 
@@ -250,6 +251,8 @@ const getPublishDates = catchAsync(async (req: Request, res: Response) => {
   res.status(httpStatus.OK).send({ success: true, data: yearsMonth })
 })
 
+// Takes publisherId, year and month through the params and returns the days where there
+// are published newspapers in that month
 const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
   const { publisherId, year, month } = req.params
 
