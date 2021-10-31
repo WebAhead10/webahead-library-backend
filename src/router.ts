@@ -27,6 +27,8 @@ router.get('/overlay/content/:id', overlays.getText)
 router.post('/overlay/content/:id', overlays.setText)
 router.get('/overlay/coords/:id', overlays.getCoords)
 router.post('/overlay/coords/:id', overlays.setCoords)
+router.delete('/overlay/:overlayId/:coordId', overlays.deleteOverlay)
+router.post('/overlay/coords/update/:overlayId', overlays.updateOverlay)
 
 router.post('/admin/signin', admin.signin)
 router.post('/admin/add', admin.add)

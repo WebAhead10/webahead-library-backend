@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import db from '../database/connection'
 import { Overlay } from '../interfaces'
+import { ApiError, catchAsync } from '../utils'
 
 const getText = async (req: Request, res: Response) => {
   const { id } = req.params
@@ -93,4 +94,42 @@ const setCoords = async (req: Request, res: Response) => {
   }
 }
 
-export default { getText, setText, getCoords, setCoords }
+const deleteOverlay = catchAsync(async (req: Request, res: Response) => {
+  const coordId = req.params.coordId
+  const overlayId = req.params.overlayId
+
+  const overlaysRes = await db.query('SELECT * FROM overlays WHERE id = $1', [overlayId])
+
+  const coords = JSON.parse(overlaysRes.rows[0].coords)
+  const newCoords = coords.filter(({ id }: { id: string }) => id !== coordId)
+
+  await db.query('UPDATE overlays SET coords = $1 WHERE id = $2', [
+    JSON.stringify(newCoords),
+    overlayId
+  ])
+
+  return res.status(200).send({
+    success: true
+  })
+})
+
+const updateOverlay = catchAsync(async (req: Request, res: Response) => {
+  const overlayId = req.params.overlayId
+  const data = req.body.overlays
+
+  const overlaysRes = await db.query('SELECT * FROM overlays WHERE id = $1', [overlayId])
+
+  const coords = JSON.parse(overlaysRes.rows[0].coords)
+  const newCoords = coords.concat(data)
+
+  await db.query('UPDATE overlays SET coords = $1 WHERE id = $2', [
+    JSON.stringify(newCoords),
+    overlayId
+  ])
+
+  return res.status(200).send({
+    success: true
+  })
+})
+
+export default { getText, setText, getCoords, setCoords, deleteOverlay, updateOverlay }

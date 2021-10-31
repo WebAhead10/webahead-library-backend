@@ -27,7 +27,7 @@ CREATE TABLE newspapers(
     -- )
 );
 
-INSERT INTO newspapers (published_date, publisher_id, newspaper_key) VALUES ('2021-09-05', '1', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6');
+INSERT INTO newspapers (published_date, publisher_id, newspaper_key) VALUES ('1914-02-17', '1', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24');
 
 CREATE TABLE newspaper_pages(
     id SERIAL PRIMARY KEY,  
@@ -38,12 +38,10 @@ CREATE TABLE newspaper_pages(
 
 
 INSERT INTO newspaper_pages (newspaper_id, page_number, name) VALUES 
-('1', '1', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_1'),
-('1', '2', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_2'),
-('1', '3', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_3'),
-('1', '4', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_4'),
-('1', '5', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_5'),
-('1', '6', '1632683293570-aab2494a-4dc5-48ca-91e2-6c37a9876ba6_page_6');
+('1', '1', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24_page_1'),
+('1', '2', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24_page_2'),
+('1', '3', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24_page_3'),
+('1', '4', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24_page_4');
 
 
 CREATE TABLE overlays (

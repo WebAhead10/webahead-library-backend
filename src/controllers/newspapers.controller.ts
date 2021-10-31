@@ -118,7 +118,7 @@ const upload = async (req: Request, res: Response) => {
         let bucketPath = filePath.substring(`${pageName}_files`.length + 1)
         let params: UploadParams = {
           Bucket: S3_BUCKET,
-          Key: `misc/${documentName}/${pageName}/${pageName}_files/${bucketPath}`,
+          Key: `documents/${documentName}/${pageName}/${pageName}_files/${bucketPath}`,
           Body: fs.readFileSync(filePath)
         }
 
@@ -132,7 +132,7 @@ const upload = async (req: Request, res: Response) => {
 
       let params = {
         Bucket: S3_BUCKET,
-        Key: `misc/${documentName}/${pageName}/${pageName}.dzi`,
+        Key: `documents/${documentName}/${pageName}/${pageName}.dzi`,
         Body: fs.readFileSync(`${pageName}.dzi`)
       }
 
