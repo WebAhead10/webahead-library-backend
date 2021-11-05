@@ -222,7 +222,7 @@ const monthNameToNumber: IRandomKeys = {
 const getPublishDates = catchAsync(async (req: Request, res: Response) => {
   const { publisherId } = req.params
 
-  if (!publisherId) throw new ApiError(httpStatus.BAD_REQUEST, 'Publisher does not exist')
+  if (!publisherId) throw new ApiError(httpStatus.BAD_REQUEST, 'Publisher id not provided')
 
   const dbRes = await db.query('SELECT * FROM newspapers WHERE publisher_id = $1', [publisherId])
 
