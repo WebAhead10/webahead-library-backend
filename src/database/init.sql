@@ -27,7 +27,7 @@ CREATE TABLE newspapers(
     -- )
 );
 
-INSERT INTO newspapers (published_date, publisher_id, newspaper_key) VALUES ('1914-02-17', '1', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24');
+INSERT INTO newspapers (published_date, publisher_id, newspaper_key) VALUES ('1914-03-17', '5', '1635708989964-a3f05967-3bd0-44fd-9e17-a1820bdfbf24');
 
 CREATE TABLE newspaper_pages(
     id SERIAL PRIMARY KEY,  
