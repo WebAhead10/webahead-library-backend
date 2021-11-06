@@ -51,6 +51,12 @@ CREATE TABLE overlays (
     content TEXT 
 );
 
+INSERT INTO overlays (id, document_id, coords, content) VALUES (
+    '1', '1', 
+    '[{"overlay":{"x":2240.118360923078,"y":306.80652032045333,"height":476.9422853258072,"width":347.7695458991975},"id":"overlay_2bae3aff-858e-4196-9c6e-75c48b1dd8f4"},{"overlay":{"x":2111.619948120885,"y":310.6571357870161,"height":230.15780248726156,"width":129.62518788763236},"id":"overlay_3952675f-e253-4238-b3ed-46681d6c8cea"}]', 
+    'Random text here'
+);
+
 CREATE TABLE admins(
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE,
@@ -62,6 +68,12 @@ CREATE TABLE tags (
     id SERIAL PRIMARY KEY,
     tag_name VARCHAR(255) UNIQUE
 );
+
+INSERT INTO tags (id, tag_name) VALUES ('1', 'test');
+INSERT INTO tags (id, tag_name) VALUES ('2', 'beautiful');
+INSERT INTO tags (id, tag_name) VALUES ('3', 'sport');
+INSERT INTO tags (id, tag_name) VALUES ('4', 'action');
+INSERT INTO tags (id, tag_name) VALUES ('5', 'random tag');
 
 CREATE TABLE document_tag (
     id SERIAL PRIMARY KEY,

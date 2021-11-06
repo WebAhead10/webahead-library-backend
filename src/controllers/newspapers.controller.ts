@@ -257,7 +257,7 @@ const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
   const { publisherId, year, month } = req.params
 
   if (!publisherId || !year || !month)
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Publisher does not exist')
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Missing data to process the request')
 
   const dateStart = `${year}-${monthNameToNumber[month]}-01`
   const dateEnd = `${year}-${monthNameToNumber[month]}-31`
