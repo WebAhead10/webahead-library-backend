@@ -9,6 +9,7 @@ import { IRandomKeys, Tag, Newspaper } from '../interfaces'
 import config from '../config'
 import { ApiError, catchAsync } from '../utils'
 import httpStatus from 'http-status'
+import DataCheck from '../utils/DateCheck'
 
 aws.config.region = config.aws.region
 
@@ -260,7 +261,8 @@ const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Missing data to process the request')
 
   const dateStart = `${year}-${monthNameToNumber[month]}-01`
-  const dateEnd = `${year}-${monthNameToNumber[month]}-31`
+  const lastDayOfCurrentMonth = DataCheck(monthNameToNumber[month], year)
+  const dateEnd = `${year}-${monthNameToNumber[month]}-${lastDayOfCurrentMonth}`
 
   const dbRes = await db.query(
     'SELECT * FROM newspapers WHERE publisher_id = $1 AND published_date between $2 and $3',
