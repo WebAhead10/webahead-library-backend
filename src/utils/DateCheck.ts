@@ -28,7 +28,10 @@ const DateCheck = function (month: string, year: string) {
   // }
 
   //shorter way:
-  returnDayDate = moment('${year}-${month}', 'YYYY-MM').daysInMonth()
+  returnDayDate = moment(year + '-' + month, 'YYYY-MM').daysInMonth()
+  // console.log(year + '-' + month)
+  // console.log(returnDayDate)
+
   return returnDayDate
 }
 
