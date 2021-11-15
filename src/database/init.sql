@@ -89,8 +89,8 @@ CREATE TABLE overlay_tag (
 CREATE TABLE document_notes(
     id SERIAL PRIMARY KEY,
     document_text VARCHAR(255),
-    --user_id INTEGER REFERENCES users(id), (there is no users table)
-    --document_id INTEGER REFERENCES documents(id), (there is no documents table)
+    user_id INTEGER
+    document_id INTEGER 
     created_at DATE 
 
 );
