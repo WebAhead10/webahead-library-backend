@@ -1,7 +1,7 @@
 BEGIN;
 
 DROP TABLE IF EXISTS newspapers, newspaper_pages, overlays, admins, publishers, 
-tags, document_tag, overlay_tag CASCADE;
+tags, document_tag, overlay_tag, document_notes CASCADE;
 
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
@@ -85,6 +85,14 @@ CREATE TABLE overlay_tag (
     id SERIAL PRIMARY KEY,
     overlay_id VARCHAR(255),
     tag_id INTEGER REFERENCES tags(id)
+);
+CREATE TABLE document_notes(
+    id SERIAL PRIMARY KEY,
+    document_text VARCHAR(255),
+    --user_id INTEGER REFERENCES users(id), (there is no users table)
+    --document_id INTEGER REFERENCES documents(id), (there is no documents table)
+    created_at DATE 
+
 );
 
 COMMIT;
