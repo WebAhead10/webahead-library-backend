@@ -87,4 +87,5 @@ CREATE TABLE overlay_tag (
     tag_id INTEGER REFERENCES tags(id)
 );
 
+
 COMMIT;
