@@ -77,7 +77,7 @@ INSERT INTO tags (id, tag_name) VALUES ('5', 'random tag');
 
 CREATE TABLE document_tag (
     id SERIAL PRIMARY KEY,
-    document_id VARCHAR(255),
+    document_id INTEGER REFERENCES newspapers(id),
     tag_id INTEGER REFERENCES tags(id)
 );
 
@@ -86,13 +86,13 @@ CREATE TABLE overlay_tag (
     overlay_id VARCHAR(255),
     tag_id INTEGER REFERENCES tags(id)
 );
+
 CREATE TABLE document_notes(
     id SERIAL PRIMARY KEY,
     document_text VARCHAR(255),
-    user_id INTEGER
-    document_id INTEGER 
-    created_at DATE 
-
+    user_id INTEGER,
+    document_id INTEGER REFERENCES newspapers(id), 
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMIT;
