@@ -1,14 +1,26 @@
 BEGIN;
 
-DROP TABLE IF EXISTS newspapers, newspaper_pages, overlays, admins, publishers, 
+DROP TABLE IF EXISTS users, newspapers, newspaper_pages, overlays, admins, publishers, 
 tags, document_tag, overlay_tag CASCADE;
+
+DROP TYPE IF EXISTS userType CASCADE;
+
+CREATE TYPE userType AS ENUM ('normal','advanced');
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    name VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    role userType DEFAULT 'normal'
+);
 
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
     name VARCHAR(255) UNIQUE,
     logo VARCHAR(500) UNIQUE
 );
- 
+
 INSERT INTO publishers (name, logo) VALUES ('فلسطين', 'https://www.maan-ctr.org/magazine/files/image/photos/issue117/topics/5/4.jpg');
 INSERT INTO publishers (name, logo) VALUES ('حيفا نت', 'https://haifanet.co.il/wp-content/themes/haifanet/inc/images/logo.png');
 INSERT INTO publishers (name, logo) VALUES ('الفجر', 'https://aqlam-moqawema.org/wp-content/uploads/2021/06/%D8%B5%D8%AD%D8%A7%D9%81%D8%A9.gif');
