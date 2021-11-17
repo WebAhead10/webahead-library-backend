@@ -48,6 +48,8 @@ const signin = catchAsync(async (req: Request, res: Response) => {
 
   const isCorrect = await bcrypt.compare(password, user.password)
 
+  console.log(password, user.password)
+
   if (!isCorrect) {
     throw new Error('Incorrect password')
   }

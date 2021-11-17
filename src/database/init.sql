@@ -1,7 +1,7 @@
 BEGIN;
 
 DROP TABLE IF EXISTS newspapers, newspaper_pages, overlays, admins, publishers, 
-tags, document_tag, overlay_tag CASCADE;
+tags, document_tag, overlay_tag, volunteers CASCADE;
 
 CREATE TABLE publishers (  
     id SERIAL PRIMARY KEY,  
@@ -58,6 +58,13 @@ INSERT INTO overlays (id, document_id, coords, content) VALUES (
 );
 
 CREATE TABLE admins(
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE volunteers(
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255),

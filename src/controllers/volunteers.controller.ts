@@ -1,26 +1,65 @@
 import { Request, Response } from 'express'
 import db from '../database/connection'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { catchAsync } from '../utils'
+import config from '../config'
 
-const signup = async (req: Request, res: Response) => {
-  try {
-    await 1
-  } catch (error: any) {
-    res.send({
-      success: false,
-      message: error.message || 'Something went wrong'
-    })
+const secret = config.jwtSecret
+
+const add = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = req.body
+
+  if (!email || !password) {
+    throw new Error('Missing data')
   }
-}
 
-const signin = async (req: Request, res: Response) => {
-  try {
-    await 1
-  } catch (error: any) {
-    res.send({
-      success: false,
-      message: error.message || 'Something went wrong'
-    })
+  const result = await db.query('SELECT * FROM volunteers WHERE email = $1', [email])
+
+  if (result.rows.length > 0) {
+    throw new Error('Email already exists')
   }
-}
 
-export default { signin, signup }
+  const hash = await bcrypt.hash(password, 10)
+
+  const volunteerResult = await db.query(
+    `INSERT INTO volunteers (email, password) VALUES ($1, $2) RETURNING id`,
+    [email, hash]
+  )
+
+  const token = jwt.sign({ id: volunteerResult.rows[0].id }, secret)
+
+  res.status(200).send({
+    success: true,
+    token
+  })
+})
+
+const signin = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = req.body
+
+  const result = await db.query('SELECT * FROM volunteers WHERE email = $1', [email])
+
+  if (!result.rows.length) {
+    throw new Error('Email does not exist')
+  }
+
+  const user = result.rows[0]
+
+  const isCorrect = await bcrypt.compare(password, user.password)
+
+  console.log(password, user.password)
+
+  if (!isCorrect) {
+    throw new Error('Incorrect password')
+  }
+
+  const token = jwt.sign({ id: user.id }, secret)
+
+  res.status(200).send({
+    success: true,
+    token
+  })
+})
+
+export default { add, signin }

@@ -3,6 +3,7 @@ import { Router } from 'express'
 import tags from './controllers/tags.controller'
 import overlays from './controllers/overlays.controller'
 import admin from './controllers/admin.controller'
+import volunteer from './controllers/volunteers.controller'
 import newspaper from './controllers/newspapers.controller'
 
 const router = Router()
@@ -32,6 +33,9 @@ router.post('/overlay/coords/update/:overlayId', overlays.updateOverlay)
 
 router.post('/admin/signin', admin.signin)
 router.post('/admin/add', admin.add)
+
+router.post('/volunteer/signin', volunteer.signin)
+router.post('/volunteer/add', volunteer.add)
 
 router.get('/', (req, res) => {
   res.send("Server's homepage, lovely")
