@@ -4,8 +4,7 @@ import tags from './controllers/tags.controller'
 import overlays from './controllers/overlays.controller'
 import admin from './controllers/admin.controller'
 import newspaper from './controllers/newspapers.controller'
-import user from'./controllers/user.controller'
-
+import user from './controllers/user.controller'
 
 const router = Router()
 
@@ -22,6 +21,7 @@ router.get('/newspaper/:id', newspaper.get)
 router.post('/newspaper', newspaper.save)
 router.get('/publishers', newspaper.getPublishers)
 router.post('/publishers/add', newspaper.addPublisher)
+router.post('/note', newspaper.addNote)
 router.get('/publish/dates/:publisherId', newspaper.getPublishDates)
 router.get('/publish/dates/:publisherId/:year/:month', newspaper.getPublishDatesDays)
 
@@ -35,8 +35,8 @@ router.post('/overlay/coords/update/:overlayId', overlays.updateOverlay)
 router.post('/admin/signin', admin.signin)
 router.post('/admin/add', admin.add)
 
-router.post('/user/add',user.add)
-router.post('/user/signin',user.signin)
+router.post('/user/add', user.add)
+router.post('/user/signin', user.signin)
 
 
 router.get('/', (req, res) => {
