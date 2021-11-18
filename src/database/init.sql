@@ -1,7 +1,9 @@
 BEGIN;
 
+
 DROP TABLE IF EXISTS users, newspapers, newspaper_pages, overlays, admins, publishers, 
 tags, document_tag, overlay_tag CASCADE;
+
 
 DROP TYPE IF EXISTS userType CASCADE;
 
@@ -89,7 +91,7 @@ INSERT INTO tags (id, tag_name) VALUES ('5', 'random tag');
 
 CREATE TABLE document_tag (
     id SERIAL PRIMARY KEY,
-    document_id VARCHAR(255),
+    document_id INTEGER REFERENCES newspapers(id),
     tag_id INTEGER REFERENCES tags(id)
 );
 
@@ -97,6 +99,14 @@ CREATE TABLE overlay_tag (
     id SERIAL PRIMARY KEY,
     overlay_id VARCHAR(255),
     tag_id INTEGER REFERENCES tags(id)
+);
+
+CREATE TABLE document_notes(
+    id SERIAL PRIMARY KEY,
+    text VARCHAR(255),
+    user_id INTEGER,
+    document_id INTEGER REFERENCES newspapers(id), 
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMIT;
