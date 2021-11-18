@@ -37,4 +37,29 @@ const add = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-export default { add }
+const signin = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = req.body
+
+  const result = await db.query('SELECT * FROM users WHERE email = $1', [email])
+
+  if (!result.rows.length) {
+    throw new Error('Email does not exist')
+  }
+
+  const user = result.rows[0]
+
+  const isCorrect = await bcrypt.compare(password, user.password)
+
+  if (!isCorrect) {
+    throw new Error('Incorrect password')
+  }
+
+  const token = jwt.sign({ id: user.id }, secret)
+
+  res.status(200).send({
+    success: true,
+    token
+  })
+})
+
+export default { add,signin }
