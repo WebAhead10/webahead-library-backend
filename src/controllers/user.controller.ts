@@ -9,7 +9,8 @@ import config from '../config'
 const secret = config.jwtSecret
 
 const add = catchAsync(async (req: Request, res: Response) => {
-  const { email, password, name } = req.body
+  const { email, password, name, role } = req.body
+  /** role is either: 'normal' or 'advanced' */
 
   if (!email || !password || !name) {
     throw new Error('Missing data')
@@ -24,11 +25,10 @@ const add = catchAsync(async (req: Request, res: Response) => {
   const hash = await bcrypt.hash(password, 10)
 
   const userResult = await db.query(
-    `INSERT INTO users (email, password,name) VALUES ($1, $2,$3) RETURNING id`,
-    [email, hash, name]
+    `INSERT INTO users (email, password,name,role) VALUES ($1, $2,$3,$4) RETURNING id`,
+    [email, hash, name,role]
   )
 
-  console.log("secret",secret)
   const token = jwt.sign({ id: userResult.rows[0].id }, secret)
 
   res.status(200).send({

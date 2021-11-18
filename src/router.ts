@@ -4,8 +4,7 @@ import tags from './controllers/tags.controller'
 import overlays from './controllers/overlays.controller'
 import admin from './controllers/admin.controller'
 import newspaper from './controllers/newspapers.controller'
-import normal_user from'./controllers/normal_user.controller'
-import advanced_user from'./controllers/advanced_user.controller'
+import user from'./controllers/user.controller'
 
 
 const router = Router()
@@ -36,9 +35,8 @@ router.post('/overlay/coords/update/:overlayId', overlays.updateOverlay)
 router.post('/admin/signin', admin.signin)
 router.post('/admin/add', admin.add)
 
-router.post('/normal-user/add',normal_user.add)
+router.post('/user/add',user.add)
 
-router.post('/advanced-user/add',advanced_user.add)
 
 router.get('/', (req, res) => {
   res.send("Server's homepage, lovely")
