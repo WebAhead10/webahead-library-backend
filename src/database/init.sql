@@ -1,11 +1,28 @@
 BEGIN;
 
 DROP TABLE IF EXISTS users, newspapers, newspaper_pages, overlays, admins, publishers, 
-tags, document_tag, overlay_tag, document_notes CASCADE;
+tags, document_tag, overlay_tag, document_notes, documents_history CASCADE;
 
-DROP TYPE IF EXISTS userType CASCADE;
+DROP TYPE IF EXISTS userType,dataChangeType, operationType CASCADE;
 
 CREATE TYPE userType AS ENUM ('normal','advanced');
+CREATE TYPE userTypeHistory AS ENUM ('normal','advanced','admin');
+
+CREATE TYPE  dataChangeType AS ENUM ('tag','note','overlay_text','overlay_devide');
+
+CREATE TYPE operationType AS ENUM ('add','delete','update');
+
+CREATE TABLE documents_history(
+    id SERIAL PRIMARY KEY,
+    dataId INTEGER,
+    dataChange dataChangeType,
+    operation operationType,
+    user_id INTEGER,
+    userRoll userTypeHistory,
+    changeData TEXT,
+    created_at DATE DEFAULT CURRENT_TIMESTAMP
+)
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE,
