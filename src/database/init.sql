@@ -102,7 +102,7 @@ CREATE TABLE overlay_tag (
 CREATE TABLE document_notes(
     id SERIAL PRIMARY KEY,
     text VARCHAR(255),
-    user_id INTEGER,
+    user_id INTEGER REFERENCES users(id),
     document_id INTEGER REFERENCES newspapers(id), 
     created_at DATE DEFAULT CURRENT_TIMESTAMP
 );
