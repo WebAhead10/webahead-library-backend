@@ -13,7 +13,7 @@ const verifyToken = (
 )=>{
     /** extracting token from header */ 
         // get auth header value
-        const header = req.headers['authorization'];
+        const header = req.headers.authorization;
         // check if header is  undefined
         if(typeof header !== 'undefined'){
             // split at the space and get token from array
