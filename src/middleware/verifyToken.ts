@@ -25,7 +25,7 @@ const verifyToken = (
                    res.sendStatus(403);
                }else{
                    if(data){
-                    const user_id = data.id;
+                    const userId = data.id;
                      /** get user from DB using the id we got from verifying token */
                     const result = await db.query('SELECT * FROM users WHERE id = $1', [user_id])
                     req.user = result.rows;
