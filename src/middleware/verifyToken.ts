@@ -15,7 +15,7 @@ const verifyToken = (
         // get auth header value
         const header = req.headers.authorization;
         // check if header is  undefined
-        if(typeof header !== 'undefined'){
+        if(header){
             // split at the space and get token from array
             const token = header.split(' ')[1];
            // verify token
