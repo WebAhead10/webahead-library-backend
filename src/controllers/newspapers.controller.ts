@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import db from '../database/connection'
 import * as aws from 'aws-sdk'
 import sharp from 'sharp'
@@ -177,14 +177,25 @@ const save = catchAsync(async (req: Request, res: Response) => {
   res.send({ success: true })
 })
 //issue 32 checkbox 3
-const addNote = catchAsync(async (req: Request, res: Response) => {
+const addNote = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { text, user_id, document_id } = req.body
   await db.query('INSERT INTO document_notes (text,user_id,document_id) VALUES ($1,$2,$3)', [
     text,
     user_id,
     document_id
   ])
-  res.status(httpStatus.OK).send({ success: true })
+
+  req.historyBody = {
+    userId: user_id
+  }
+
+  req.historyResponse = {
+    status: httpStatus.OK,
+    body: { success: true }
+  }
+
+  next()
+  // res.status(httpStatus.OK).send({ success: true })
 })
 const addPublisher = catchAsync(async (req: Request, res: Response) => {
   const { name, logo } = req.body

@@ -14,14 +14,14 @@ CREATE TYPE operationType AS ENUM ('add','delete','update');
 
 CREATE TABLE documents_history(
     id SERIAL PRIMARY KEY,
-    dataId INTEGER,
-    dataChange dataChangeType,
+    data_id INTEGER,
+    data_change dataChangeType,
     operation operationType,
     user_id INTEGER,
-    userRoll userTypeHistory,
-    changeData TEXT,
+    user_roll userTypeHistory,
+    change_data TEXT,
     created_at DATE DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,

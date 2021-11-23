@@ -10,6 +10,15 @@ import compression from 'compression'
 
 const app = express()
 
+declare global {
+  namespace Express {
+    interface Request {
+      historyResponse: any
+      historyBody: any
+    }
+  }
+}
+
 app.use(helmet())
 app.use(compression())
 app.use(cors())
