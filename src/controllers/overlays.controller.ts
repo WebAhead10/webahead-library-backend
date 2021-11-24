@@ -1,7 +1,8 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import db from '../database/connection'
 import { Overlay } from '../interfaces'
 import { ApiError, catchAsync } from '../utils'
+import httpStatus from 'http-status'
 
 const getText = async (req: Request, res: Response) => {
   const { id } = req.params
@@ -28,22 +29,34 @@ const getText = async (req: Request, res: Response) => {
   }
 }
 
-const setText = async (req: Request, res: Response) => {
-  const text = req.body.text
+const setText = async (req: Request, res: Response, next: NextFunction) => {
+  console.log('this is the correct place ', req.body)
+  const { text, user_id, document_id } = req.body
+  // const text = req.body.text
   const id = req.params.id
 
-  try {
-    await db.query('UPDATE overlays SET content = $1 WHERE id = $2', [text, id])
+  // try {
+  await db.query('UPDATE overlays SET content = $1 WHERE id = $2', [text, id])
 
-    res.status(200).send({
-      success: true
-    })
-  } catch (error: any) {
-    res.send({
-      success: false,
-      message: error.message || 'Something went wrong'
-    })
+  req.historyBody = {
+    userId: user_id
   }
+
+  req.historyResponse = {
+    status: httpStatus.OK,
+    body: { success: true }
+  }
+
+  next()
+  //   res.status(200).send({
+  //     success: true
+  //   })
+  // } catch (error: any) {
+  //   res.send({
+  //     success: false,
+  //     message: error.message || 'Something went wrong'
+  //   })
+  // }
 }
 
 const getCoords = async (req: Request, res: Response) => {

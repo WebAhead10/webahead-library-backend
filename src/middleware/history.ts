@@ -6,6 +6,7 @@ import httpStatus from 'http-status'
 const setHistory = (operation: string, dataChangeType: string) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { text, user_id, document_id } = req.body
+    // console.log(req.body)
 
     //this should be changed to user type ('normal','advanced','admin') after login is working
     const userType = 'normal'

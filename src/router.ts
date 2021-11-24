@@ -29,7 +29,7 @@ router.get('/publish/dates/:publisherId', newspaper.getPublishDates)
 router.get('/publish/dates/:publisherId/:year/:month', newspaper.getPublishDatesDays)
 
 router.get('/overlay/content/:id', overlays.getText)
-router.post('/overlay/content/:id', overlays.setText)
+router.post('/overlay/content/:id', overlays.setText, setHistory('add', 'tag'))
 router.get('/overlay/coords/:id', overlays.getCoords)
 router.post('/overlay/coords/:id', overlays.setCoords)
 router.delete('/overlay/:overlayId/:coordId', overlays.deleteOverlay)

@@ -1,10 +1,13 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import db from '../database/connection'
 import { Tag } from '../interfaces'
+import httpStatus from 'http-status'
+import { ApiError, catchAsync } from '../utils'
 
 // Adds a tag
-const add = async (req: Request, res: Response) => {
+const add = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const input = req.body.tag
+  const { text, user_id, document_id } = req.body
 
   try {
     const result = await db.query(`INSERT INTO tags(tag_name) VALUES ($1) RETURNING id`, [input])
@@ -19,7 +22,7 @@ const add = async (req: Request, res: Response) => {
       message: error.message || 'Something went wrong'
     })
   }
-}
+})
 
 // Fetch all tags
 const all = async (req: Request, res: Response) => {
@@ -79,7 +82,7 @@ const attachToDocument = async (req: Request, res: Response) => {
 }
 
 // attach tag to part of the document or overlay
-const attachToOverlay = async (req: Request, res: Response) => {
+const attachToOverlay = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = req.body
 
@@ -97,7 +100,7 @@ const attachToOverlay = async (req: Request, res: Response) => {
       message: error.message || 'Something went wrong'
     })
   }
-}
+})
 
 // autocomplete tags
 const autocomplete = async (req: Request, res: Response) => {
