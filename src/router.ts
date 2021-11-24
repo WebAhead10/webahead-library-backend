@@ -38,7 +38,6 @@ router.post('/admin/add', admin.add)
 router.post('/user/add', user.add)
 router.post('/user/signin', user.signin)
 
-
 router.get('/', (req, res) => {
   res.send("Server's homepage, lovely")
 })
