@@ -297,6 +297,27 @@ const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
   res.status(httpStatus.OK).send({ success: true, data: publishedDays })
 })
 
+const getHistory = catchAsync(async (req: Request, res: Response) => {
+  const reqType = req.body.type
+
+  /*
+    reqType can have the folowing values
+    1. note
+    2. tags
+    3. overlay_text
+    4. overlay_devide
+    5. all
+  */
+  let dbRes
+  if (reqType === 'all') {
+    dbRes = await db.query('SELECT * FROM documents_history')
+  } else {
+    dbRes = await db.query('SELECT * FROM documents_history WHERE data_change = $1', [reqType])
+  }
+
+  res.status(httpStatus.OK).send({ success: true, data: dbRes.rows })
+})
+
 export default {
   get,
   getPublishers,
@@ -305,5 +326,6 @@ export default {
   addNote,
   addPublisher,
   getPublishDates,
-  getPublishDatesDays
+  getPublishDatesDays,
+  getHistory
 }

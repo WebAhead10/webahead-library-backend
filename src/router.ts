@@ -23,6 +23,7 @@ router.post('/newspaper', newspaper.save)
 router.get('/publishers', newspaper.getPublishers)
 router.post('/publishers/add', newspaper.addPublisher)
 
+router.post('/historyDoc', newspaper.getHistory)
 router.post('/note', newspaper.addNote, setHistory('add', 'note'))
 
 router.get('/publish/dates/:publisherId', newspaper.getPublishDates)
