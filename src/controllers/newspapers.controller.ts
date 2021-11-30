@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import db from '../database/connection'
 import * as aws from 'aws-sdk'
 import sharp from 'sharp'
@@ -176,15 +176,29 @@ const save = catchAsync(async (req: Request, res: Response) => {
 
   res.send({ success: true })
 })
-//issue 32 checkbox 3
-const addNote = catchAsync(async (req: Request, res: Response) => {
+
+const addNote = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { text, user_id, document_id } = req.body
+
   await db.query('INSERT INTO document_notes (text,user_id,document_id) VALUES ($1,$2,$3)', [
     text,
     user_id,
     document_id
   ])
-  res.status(httpStatus.OK).send({ success: true })
+
+  req.historyBody = {
+    userId: user_id,
+    text,
+    document_id
+  }
+
+  req.historyResponse = {
+    status: httpStatus.OK,
+    body: { success: true }
+  }
+
+  next()
+  // res.status(httpStatus.OK).send({ success: true })
 })
 const addPublisher = catchAsync(async (req: Request, res: Response) => {
   const { name, logo } = req.body
@@ -286,6 +300,27 @@ const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
   res.status(httpStatus.OK).send({ success: true, data: publishedDays })
 })
 
+const getHistory = catchAsync(async (req: Request, res: Response) => {
+  const reqType = req.body.type
+
+  /*
+    reqType can have the folowing values
+    1. note
+    2. tags
+    3. overlay_text
+    4. overlay_devide
+    5. all
+  */
+  let dbRes
+  if (reqType === 'all') {
+    dbRes = await db.query('SELECT * FROM documents_history')
+  } else {
+    dbRes = await db.query('SELECT * FROM documents_history WHERE data_change = $1', [reqType])
+  }
+
+  res.status(httpStatus.OK).send({ success: true, data: dbRes.rows })
+})
+
 export default {
   get,
   getPublishers,
@@ -294,5 +329,6 @@ export default {
   addNote,
   addPublisher,
   getPublishDates,
-  getPublishDatesDays
+  getPublishDatesDays,
+  getHistory
 }

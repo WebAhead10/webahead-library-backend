@@ -5,14 +5,19 @@ import cors from 'cors'
 import fileUpload from 'express-fileupload'
 import config from './config'
 import { errorConverter, errorHandler } from './middleware/error'
-import {verifyToken} from './middleware/verifyToken'
+import { verifyToken } from './middleware/verifyToken'
 import helmet from 'helmet'
 import compression from 'compression'
 
-/** here we Extend the global namespace in order to add a user attr. to Request Interface */
 declare global {
+  interface historyResponse {
+    status: Number
+    body: any
+  }
   namespace Express {
     interface Request {
+      historyResponse: historyResponse
+      historyBody: any
       user: any
     }
   }

@@ -5,6 +5,7 @@ import overlays from './controllers/overlays.controller'
 import admin from './controllers/admin.controller'
 import newspaper from './controllers/newspapers.controller'
 import user from './controllers/user.controller'
+import setHistory from './middleware/history'
 
 const router = Router()
 
@@ -21,17 +22,19 @@ router.get('/newspaper/:id', newspaper.get)
 router.post('/newspaper', newspaper.save)
 router.get('/publishers', newspaper.getPublishers)
 router.post('/publishers/add', newspaper.addPublisher)
-router.post('/note', newspaper.addNote)
+
+router.post('/historyDoc', newspaper.getHistory)
+router.post('/note', newspaper.addNote, setHistory('add', 'note'))
+
 router.get('/publish/dates/:publisherId', newspaper.getPublishDates)
 router.get('/publish/dates/:publisherId/:year/:month', newspaper.getPublishDatesDays)
 
 router.get('/overlay/content/:id', overlays.getText)
-router.post('/overlay/content/:id', overlays.setText)
+router.post('/overlay/content/:id', overlays.setText, setHistory('add', 'tag'))
 router.get('/overlay/coords/:id', overlays.getCoords)
 router.post('/overlay/coords/:id', overlays.setCoords)
 router.delete('/overlay/:overlayId/:coordId', overlays.deleteOverlay)
 router.post('/overlay/coords/update/:overlayId', overlays.updateOverlay)
-
 router.post('/admin/signin', admin.signin)
 router.post('/admin/add', admin.add)
 
