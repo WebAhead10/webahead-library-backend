@@ -30,16 +30,17 @@ const getText = async (req: Request, res: Response) => {
 }
 
 const setText = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('this is the correct place ', req.body)
+  // user_id should come from the req.user
   const { text, user_id, document_id } = req.body
-  // const text = req.body.text
+
   const id = req.params.id
 
-  // try {
   await db.query('UPDATE overlays SET content = $1 WHERE id = $2', [text, id])
 
   req.historyBody = {
-    userId: user_id
+    userId: user_id,
+    overlayId: id,
+    text
   }
 
   req.historyResponse = {
@@ -48,15 +49,6 @@ const setText = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   next()
-  //   res.status(200).send({
-  //     success: true
-  //   })
-  // } catch (error: any) {
-  //   res.send({
-  //     success: false,
-  //     message: error.message || 'Something went wrong'
-  //   })
-  // }
 }
 
 const getCoords = async (req: Request, res: Response) => {

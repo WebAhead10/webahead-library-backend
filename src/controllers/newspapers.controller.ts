@@ -176,9 +176,10 @@ const save = catchAsync(async (req: Request, res: Response) => {
 
   res.send({ success: true })
 })
-//issue 32 checkbox 3
+
 const addNote = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { text, user_id, document_id } = req.body
+
   await db.query('INSERT INTO document_notes (text,user_id,document_id) VALUES ($1,$2,$3)', [
     text,
     user_id,
@@ -186,7 +187,9 @@ const addNote = catchAsync(async (req: Request, res: Response, next: NextFunctio
   ])
 
   req.historyBody = {
-    userId: user_id
+    userId: user_id,
+    text,
+    document_id
   }
 
   req.historyResponse = {
