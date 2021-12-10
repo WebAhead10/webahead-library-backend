@@ -301,7 +301,7 @@ const getPublishDatesDays = catchAsync(async (req: Request, res: Response) => {
 })
 
 const getHistory = catchAsync(async (req: Request, res: Response) => {
-  const reqType = req.body.type
+  const reqType = req.params.type
 
   /*
     reqType can have the folowing values

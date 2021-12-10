@@ -108,10 +108,14 @@ const deleteOverlay = catchAsync(async (req: Request, res: Response) => {
   const coords = JSON.parse(overlaysRes.rows[0].coords)
   const newCoords = coords.filter(({ id }: { id: string }) => id !== coordId)
 
-  await db.query('UPDATE overlays SET coords = $1 WHERE id = $2', [
-    JSON.stringify(newCoords),
-    overlayId
-  ])
+  if (newCoords.length) {
+    await db.query('UPDATE overlays SET coords = $1 WHERE id = $2', [
+      JSON.stringify(newCoords),
+      overlayId
+    ])
+  } else {
+    await db.query('DELETE FROM overlays where id = $1', [overlayId])
+  }
 
   return res.status(200).send({
     success: true
