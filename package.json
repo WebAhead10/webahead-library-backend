@@ -10,7 +10,7 @@
     "dev": "NODE_ENV=development ts-node-dev src/run-server.ts",
     "build:db": "ts-node src/database/build.ts",
     "build": "tsc",
-    "heroku-prebuild": "tsc"
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "",
