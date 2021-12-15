@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --max-old-space-size=4096 -- node_modules/.bin/ts-node src/run-server.ts",
+    "start": "node --max-old-space-size=4096 dist/run-server.js",
     "poststart": "node ./node_modules/pm2/bin/pm2 logs",
     "dev": "NODE_ENV=development ts-node-dev src/run-server.ts",
-    "build:db": "ts-node src/database/build.ts"
+    "build:db": "ts-node src/database/build.ts",
+    "build": "tsc",
+    "heroku-prebuild": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -47,7 +49,8 @@
     "pm2": "^4.5.1",
     "sharp": "^0.29.0",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3",
+    "tsc": "^2.0.3",
+    "typescript": "^4.5.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {
