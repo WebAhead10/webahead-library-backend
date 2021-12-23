@@ -36,7 +36,7 @@ app.use('/', apiRoutes)
 app.use(errorConverter)
 app.use(errorHandler)
 
-const port = config.port || 7000
+const port = config.port || 4000
 
 app.listen(port, () => {
   console.log(`Server run on port http://localhost:${port}`)

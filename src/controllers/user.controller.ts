@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken'
 import { catchAsync } from '../utils'
 import config from '../config'
 
-
 const secret = config.jwtSecret
 
 const add = catchAsync(async (req: Request, res: Response) => {
@@ -26,7 +25,7 @@ const add = catchAsync(async (req: Request, res: Response) => {
 
   const userResult = await db.query(
     `INSERT INTO users (email, password,name,role) VALUES ($1, $2,$3,$4) RETURNING id`,
-    [email, hash, name,role]
+    [email, hash, name, role]
   )
 
   const token = jwt.sign({ id: userResult.rows[0].id }, secret)
@@ -39,7 +38,8 @@ const add = catchAsync(async (req: Request, res: Response) => {
 
 const signin = catchAsync(async (req: Request, res: Response) => {
   const { email, password } = req.body
-
+  const a = await db.query('SELECT * FROM users')
+  console.log(a.rows)
   const result = await db.query('SELECT * FROM users WHERE email = $1', [email])
 
   if (!result.rows.length) {
@@ -62,4 +62,4 @@ const signin = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-export default { add,signin }
+export default { add, signin }

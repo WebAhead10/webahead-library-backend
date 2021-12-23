@@ -3,7 +3,7 @@ BEGIN;
 DROP TABLE IF EXISTS users, newspapers, newspaper_pages, overlays, admins, publishers, 
 tags, document_tag, overlay_tag, document_notes, documents_history CASCADE;
 
-DROP TYPE IF EXISTS userType,dataChangeType, operationType CASCADE;
+DROP TYPE IF EXISTS userType,dataChangeType, operationType, userTypeHistory, entitytype CASCADE;
 
 CREATE TYPE userType AS ENUM ('normal','advanced');
 CREATE TYPE userTypeHistory AS ENUM ('normal','advanced','admin');
